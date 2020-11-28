@@ -1,9 +1,21 @@
 {
-    "objectscript.conn.port": 52773,
-    "objectscript.conn.username": "superuser",
-    "objectscript.conn.password": "SYS",
+    "typescript.validate.enable": false,
     "objectscript.export.folder": "backend/src",
-    "objectscript.conn.active": true,
-    "objectscript.conn.ns": "MYAPP",
-    "typescript.validate.enable": false
+    "files.associations": {
+        "iris.script": "objectscript",
+    },
+    "objectscript.conn": {
+        "ns": "MYAPP",
+        "username": "superuser",
+        "password": "SYS",
+        "active": true,
+        "docker-compose": {
+            "service": "backend",
+            "internalPort": 52773
+        },
+        "links": {
+            "IRIS backend": "http://localhost:52773/csp/sys/UtilHome.csp",
+            "Angular frontend": "http://localhost:4200/"
+        }
+    }
 }

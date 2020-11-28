@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+  <Document name="iris-samples-rest-angular.ZPM">
+    <Module>
+      <Name>iris-samples-rest-angular</Name>
+      <Description>A IRIS Interoperability Adapter for ML models managed by IRIS IntegratedML.</Description>
+      <Version>0.0.1</Version>
+      <Packaging>module</Packaging>
+      <SourcesRoot>backend/src</SourcesRoot>
+      <Resource Name="dc.myapp.models.PKG"/>
+      <Resource Name="dc.myapp.forms.PKG"/>
+      <UnitTest Name="tests" Package="UnitTest" Phase="test"/>
+      <!-- <SystemRequirements Version=">=2020.3" Interoperability="enabled" /> -->
+    </Module>
+  </Document>
+</Export>

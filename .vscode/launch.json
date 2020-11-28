@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "command": "npm run teste",
+      "name": "IRIS UnitTest",
+      "request": "launch",
+      "type": "node-terminal",
+      "cwd": "${workspaceFolder}/frontend/",
+
+    },
+    {
+      "command": "npx ng test",
+      "name": "ng test",
+      "request": "launch",
+      "type": "node-terminal",
+      "cwd": "${workspaceFolder}/frontend/"
+    },
+    {
+      "type": "objectscript",
+      "request": "launch",
+      "name": "ObjectScript Debug Class",
+      "program": "##class(PackageSample.ObjectScript).Test()"
+    },
+    {
+      "type": "objectscript",
+      "request": "attach",
+      "name": "ObjectScript Attach",
+      "processId": "${command:PickProcess}",
+      "system": true
+    }
+  ]
+}

@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "teste": "docker exec backend-demo irissession iris -U MYAPP \"##class(%UnitTest.Manager).RunTest()\""
   },
   "private": true,
   "dependencies": {
