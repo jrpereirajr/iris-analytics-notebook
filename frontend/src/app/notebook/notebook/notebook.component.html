@@ -1,1 +1,2 @@
-<p>notebook works!!!</p>
+<div *ngIf="!value">{{'notebook.noNotebook' | translate}}</div>
+<div *ngIf="value">{{value.name}}</div>

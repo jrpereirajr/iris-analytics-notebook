@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { AuthGuard } from './auth/auth.guard';
 
 
 const routes: Routes = [
-  { 
-    path: '', 
-    redirectTo: 'about', 
-    pathMatch: 'full' 
+  {
+    path: '',
+    redirectTo: 'about',
+    pathMatch: 'full'
   },
   {
     path: 'about',
@@ -23,13 +24,18 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'notebook',
+    loadChildren: () => import('./notebook/notebook.module').then(m => m.NotebookModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     redirectTo: '/'
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes), TranslateModule],
+  exports: [RouterModule, TranslateModule]
 })
 export class AppRoutingModule { }

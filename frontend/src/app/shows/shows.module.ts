@@ -18,7 +18,7 @@ import { CastEditDialogComponent } from './cast-edit-dialog/cast-edit-dialog.com
   imports: [
     CommonModule,
     MatDialogModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     SharedModule,
     ShowsRoutingModule
@@ -26,8 +26,8 @@ import { CastEditDialogComponent } from './cast-edit-dialog/cast-edit-dialog.com
   providers: [
     ShowsService
   ],
-  entryComponents: [ 
-    ShowEditDialogComponent, 
+  entryComponents: [
+    ShowEditDialogComponent,
     CastEditDialogComponent
   ],
 })
