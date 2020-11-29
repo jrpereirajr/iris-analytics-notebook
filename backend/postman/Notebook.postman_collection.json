@@ -1,0 +1,385 @@
+{
+	"info": {
+		"_postman_id": "11b54b1d-b6f7-4876-a2f9-120276a7d1cf",
+		"name": "Notebook",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a notebook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "303d716d-77b7-407c-8eaa-53be37e0853a",
+						"exec": [
+							"var responseJson = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set('testCreatedNotebookId', responseJson.Id);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Have an Id property\", function () {\r",
+							"    pm.expect(responseJson)\r",
+							"        .to.have.all.keys(['Id']);\r",
+							"    pm.expect(responseJson.Id)\r",
+							"        .to.be.not.undefined;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "SYS",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "superuser",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"foo\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.forms.NotebookForm",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{endpoint}}",
+						"form",
+						"object",
+						"dc.myapp.forms.NotebookForm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get created notebook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4094afaa-3b21-47d9-bc95-7eec60b17095",
+						"exec": [
+							"var responseJson = JSON.parse(responseBody);\r",
+							"// pm.environment.set('testCreatedNotebookJSON', responseBody);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Have included a notebook with name equals to foo\", function () {\r",
+							"    pm.expect(responseJson).to.be.not.undefined;\r",
+							"    pm.expect(responseJson.Name).to.be.equals('foo')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.forms.NotebookForm/{{testCreatedNotebookId}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{endpoint}}",
+						"form",
+						"object",
+						"dc.myapp.forms.NotebookForm",
+						"{{testCreatedNotebookId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change notebook's name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a448212d-b611-4c40-b13a-c43feb81854c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "SYS",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "superuser",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"foo bar\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.forms.NotebookForm/{{testCreatedNotebookId}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{endpoint}}",
+						"form",
+						"object",
+						"dc.myapp.forms.NotebookForm",
+						"{{testCreatedNotebookId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get updated notebook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7d961c5b-3197-45ad-9796-a1730770275e",
+						"exec": [
+							"var responseJson = JSON.parse(responseBody);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Have changed the notebook name to foo bar\", function () {\r",
+							"    pm.expect(responseJson).to.be.not.undefined;\r",
+							"    pm.expect(responseJson.Name).to.be.equals('foo bar')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.forms.NotebookForm/{{testCreatedNotebookId}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{endpoint}}",
+						"form",
+						"object",
+						"dc.myapp.forms.NotebookForm",
+						"{{testCreatedNotebookId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove the created notebook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "86163ff9-058e-46ed-a4f9-842459a4f408",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "SYS",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "superuser",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.forms.NotebookForm/{{testCreatedNotebookId}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{endpoint}}",
+						"form",
+						"object",
+						"dc.myapp.forms.NotebookForm",
+						"{{testCreatedNotebookId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Try to get the deleted notebook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ef213756-b5d8-4441-8781-21f132245b2d",
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.forms.NotebookForm/{{testCreatedNotebookId}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{endpoint}}",
+						"form",
+						"object",
+						"dc.myapp.forms.NotebookForm",
+						"{{testCreatedNotebookId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "SYS",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "superuser",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "845b8fea-789b-44c0-9d13-9f3b425dceff",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "ca3be0f3-63ca-4962-abd0-c470b93a7aec",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "1bb7982c-5642-4ef9-ad16-d0c8453fc79a",
+			"key": "host",
+			"value": "localhost"
+		},
+		{
+			"id": "4c54fb48-1549-4f18-adf2-e8b7a3d64e35",
+			"key": "port",
+			"value": "52773"
+		},
+		{
+			"id": "bbe8b131-1ae9-4156-8826-97319415163f",
+			"key": "endpoint",
+			"value": "myapp/api/rf2"
+		},
+		{
+			"id": "059c084a-3d83-403c-a37e-211ad8088400",
+			"key": "testTotalNotebooks",
+			"value": ""
+		},
+		{
+			"id": "c53fb884-62d2-4a94-8a19-1a20cf4e4634",
+			"key": "testCreatedNotebookId",
+			"value": ""
+		},
+		{
+			"id": "673b4e51-e611-4b8f-852c-5fe43c5f9048",
+			"key": "testCreatedNotebookJSON",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}

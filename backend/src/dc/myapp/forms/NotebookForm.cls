@@ -1,4 +1,4 @@
-Class dc.myapp.forms.NotebookForm Extends (%Persistent, Form.Adaptor, %Populate, dc.myapp.models.NotebookAbstract)
+Class dc.myapp.forms.NotebookForm Extends (%Persistent, Form.Adaptor, %Populate)
 {
 
 // Parameter INFO = "id AS _id, name As displayName, dob";
@@ -17,6 +17,8 @@ Parameter FORMORDERBY As %String = "Name";
 // Parameter FORMREADMAPPING As %String;
 
 // Parameter FORMUPDATEMAPPING As %String;
+
+Property Name As %String(COLLATION = "TRUNCATE(250)", DISPLAYNAME = "Name", MAXLEN = 2000) [ Required ];
 
 /// 
 /// This classmethod is used in the RESTForms2 query /form/objects/App.Data.Show/find
