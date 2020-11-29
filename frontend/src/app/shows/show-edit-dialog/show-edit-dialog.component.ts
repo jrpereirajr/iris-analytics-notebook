@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Show } from '../shows.model';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ShowsService } from '../services/shows.service';
 
 /**
@@ -21,18 +21,18 @@ export class ShowEditDialogComponent {
 
   /**
    * Constructor
-   * @param fb 
-   * @param dialogRef 
-   * @param data 
-   * @param showsService 
+   * @param fb  todo:
+   * @param dialogRef  todo:
+   * @param data  todo:
+   * @param showsService  todo:
    */
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<ShowEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
     private showsService: ShowsService
-  ) 
-  { 
+  )
+  {
     // set properties
     this.dialogTitle = data.dialogTitle;
     this.show = data.show;
@@ -45,11 +45,11 @@ export class ShowEditDialogComponent {
     };
 
     // update data
-    if (this.mode == 'update') {
+    if (this.mode === 'update') {
       this.form = this.fb.group(formControls);
       this.form.patchValue({...data.show});
     }
-    else if (this.mode == 'create') {
+    else if (this.mode === 'create') {
       this.form = this.fb.group({
         ...formControls
       });
@@ -76,6 +76,6 @@ export class ShowEditDialogComponent {
       .subscribe(
         () => this.dialogRef.close()
       )
-  }  
+  }
 
 }

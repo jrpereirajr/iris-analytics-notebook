@@ -5,6 +5,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { TranslateModule } from '@ngx-translate/core';
 
+import { EDITABLE_CONFIG, EditableConfig, EditableModule } from '@ngneat/edit-in-place';
+
 import { NotebookComponent } from './notebook/notebook.component';
 import { SharedModule } from '../shared/shared.module';
 import { NotebookRoutingModule } from './notebook-routing.module';
@@ -18,9 +20,18 @@ import { NotebookRoutingModule } from './notebook-routing.module';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    NotebookRoutingModule
+    NotebookRoutingModule,
+    EditableModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: EDITABLE_CONFIG,
+      useValue: {
+        openBindingEvent: 'click',
+        closeBindingEvent: 'click',
+      } as EditableConfig,
+    }
+  ],
   entryComponents: [
     NotebookComponent
   ],

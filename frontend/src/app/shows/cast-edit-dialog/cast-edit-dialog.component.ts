@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Show, Cast } from '../shows.model';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ShowEditDialogComponent } from '../show-edit-dialog/show-edit-dialog.component';
 import { ShowsService } from '../services/shows.service';
 
@@ -22,18 +22,18 @@ export class CastEditDialogComponent {
 
   /**
    * Constructor
-   * @param fb 
-   * @param dialogRef 
-   * @param data 
-   * @param showsService 
+   * @param fb  todo:
+   * @param dialogRef  todo:
+   * @param data  todo:
+   * @param showsService  todo:
    */
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<ShowEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
-    private showsService: ShowsService    
-  ) 
-  { 
+    private showsService: ShowsService
+  )
+  {
     // set properties
     this.dialogTitle = data.dialogTitle;
     this.cast = data.cast;
@@ -46,11 +46,11 @@ export class CastEditDialogComponent {
     };
 
     // update data
-    if (this.mode == 'update') {
+    if (this.mode === 'update') {
       this.form = this.fb.group(formControls);
       this.form.patchValue({...data.cast});
     }
-    else if (this.mode == 'create') {
+    else if (this.mode === 'create') {
       this.form = this.fb.group({
         ...formControls
       });

@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
 
   /**
    * Returns true if user authenticated, otherwise it will redirect the user to login page
-   * @param url 
+   * @param url  todo:
    */
   checkLogin(url: string): boolean | Observable<boolean> {
     if (this.authService.authenticated()) {
@@ -32,5 +32,5 @@ export class AuthGuard implements CanActivate {
     this.router.navigate(['/auth/login'], { queryParams: { returnUrl: url }});
     return false;
   }
-  
+
 }

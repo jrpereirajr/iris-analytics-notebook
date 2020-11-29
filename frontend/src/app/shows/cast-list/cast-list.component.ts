@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Show, Cast } from '../shows.model';
 import { ShowsService } from '../services/shows.service';
 import { map, concatMap, tap } from 'rxjs/operators';
-import { MatDialogConfig, MatDialog } from '@angular/material';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { CastEditDialogComponent } from '../cast-edit-dialog/cast-edit-dialog.component';
 
 /**
@@ -31,9 +31,9 @@ export class CastListComponent implements OnInit {
 
   /**
    * Constructor
-   * @param showsService
-   * @param route 
-   * @param dialog 
+   * @param showsService todo:
+   * @param route  todo:
+   * @param dialog  todo:
    */
   constructor(
     private showsService: ShowsService,
@@ -44,8 +44,8 @@ export class CastListComponent implements OnInit {
   /**
    * Component init
    */
-  ngOnInit() { 
-    this.showId = +this.route.snapshot.paramMap.get("showId");
+  ngOnInit() {
+    this.showId = +this.route.snapshot.paramMap.get('showId');
     this.loadData();
   }
 
@@ -55,7 +55,7 @@ export class CastListComponent implements OnInit {
   loadData() {
     this.show$ = this.showsService.findShowById(this.showId).pipe();
     this.casting$ = this.showsService.findCastByShow(this.showId).pipe(
-      map(res => res['children'])
+      map(res => res.children)
     );
   }
 
@@ -66,7 +66,7 @@ export class CastListComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '400px';
     dialogConfig.data = {
-      dialogTitle:"Edit Cast",
+      dialogTitle:'Edit Cast',
       cast,
       mode: 'update'
     };

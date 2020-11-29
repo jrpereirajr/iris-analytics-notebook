@@ -19,7 +19,7 @@ export class AlertDisplayComponent implements OnInit, OnDestroy {
 
   /**
    * Constructor
-   * @param alertService 
+   * @param alertService  todo:
    */
   constructor(private alertService: AlertService) { }
 

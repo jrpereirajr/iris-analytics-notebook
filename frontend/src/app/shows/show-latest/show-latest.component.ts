@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, tap } from "rxjs/operators";
+import { map, tap } from 'rxjs/operators';
 
 import { ShowsService } from '../services/shows.service';
 import { Show } from '../shows.model';
-import { MatDialogConfig, MatDialog } from '@angular/material';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { ShowEditDialogComponent } from '../show-edit-dialog/show-edit-dialog.component';
 
 /**
@@ -22,39 +22,39 @@ export class ShowLatestComponent implements OnInit {
 
   /**
    * Constructor
-   * @param showsService 
-   * @param dialog 
+   * @param showsService todo:
+   * @param dialog todo:
    */
   constructor(
     private showsService: ShowsService,
     private dialog: MatDialog
   ) { }
 
-  /** 
-   * Component init 
+  /**
+   * Component init
    */
   ngOnInit() {
     this.loadData();
   }
 
-  /** 
-   * Load data from backed using service 
+  /**
+   * Load data from backed using service
    */
   loadData() {
     this.shows$ = this.showsService.findLatestShows().pipe(
       map(res => res['children'])
-    );  
+    );
   }
 
   /**
    * User click on a "edit show" button
-   * @param show 
+   * @param show todo:
    */
   editShow(show:Show) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '400px';
     dialogConfig.data = {
-      dialogTitle:"Edit a Show",
+      dialogTitle:'Edit a Show',
       show,
       mode: 'update'
     };
@@ -63,5 +63,5 @@ export class ShowLatestComponent implements OnInit {
     this.dialog.open(ShowEditDialogComponent, dialogConfig).afterClosed()
     .subscribe(() => this.loadData());
   }
-  
+
 }

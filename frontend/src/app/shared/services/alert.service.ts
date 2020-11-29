@@ -5,7 +5,7 @@ import { Router, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 /**
- * Display alerts in the application when errors, warnings, etc. happens 
+ * Display alerts in the application when errors, warnings, etc. happens
  * See: https://jasonwatmore.com/post/2019/07/05/angular-8-alert-toaster-notifications
  */
 @Injectable({
@@ -18,7 +18,7 @@ export class AlertService {
 
   /**
    * Constructor
-   * @param router
+   * @param router todo:
    */
   constructor(private router: Router) {
     // clear alert messages on route change unless 'keepAfterRouteChange' flag is true
@@ -44,8 +44,8 @@ export class AlertService {
 
   /**
    * Register a SUCESS alert
-   * @param message
-   * @param alertId 
+   * @param message todo:
+   * @param alertId todo:
    */
   success(message: string, alertId?: string) {
     this.alert(new Alert({ message, type: AlertType.Success, alertId }));
@@ -53,8 +53,8 @@ export class AlertService {
 
   /**
    * Register an ERROR alert
-   * @param message
-   * @param alertId 
+   * @param message todo:
+   * @param alertId todo:
    */
   error(message: string, alertId?: string) {
     this.alert(new Alert({ message, type: AlertType.Error, alertId }));
@@ -62,17 +62,17 @@ export class AlertService {
 
   /**
    * Register a INFO alert
-   * @param message
-   * @param alertId 
-   */ 
+   * @param message todo:
+   * @param alertId todo:
+   */
   info(message: string, alertId?: string) {
     this.alert(new Alert({ message, type: AlertType.Info, alertId }));
   }
 
   /**
    * Register a WARN alert
-   * @param message
-   * @param alertId 
+   * @param message todo:
+   * @param alertId todo:
    */
   warn(message: string, alertId?: string) {
     this.alert(new Alert({ message, type: AlertType.Warning, alertId }));
@@ -80,8 +80,8 @@ export class AlertService {
 
   /**
    * Main alert method
-   * @param alert
-   */   
+   * @param alert todo:
+   */
   alert(alert: Alert) {
     this.keepAfterRouteChange = alert.keepAfterRouteChange;
     this.subject.next(alert);
@@ -89,7 +89,7 @@ export class AlertService {
 
   /**
    * Clear alerts
-   * @param alertId 
+   * @param alertId todo:
    */
   clear(alertId?: string) {
     this.subject.next(new Alert({ alertId }));

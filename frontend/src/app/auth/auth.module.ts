@@ -18,23 +18,23 @@ import { LogoutComponent } from './logout/logout.component';
     CommonModule,
     AuthRoutingModule,
     SharedModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
-  ] 
+  ]
 })
 export class AuthModule {
-  static forRoot(): ModuleWithProviders {
-      return {
-          ngModule: AuthModule,
-          providers: [
-            AuthService,
-            AuthGuard,
-            {
-              provide: HTTP_INTERCEPTORS,
-              useClass: AuthInterceptor,
-              multi: true,
-            }
-          ]
-      }
+  static forRoot(): ModuleWithProviders<AuthModule> {
+    return {
+      ngModule: AuthModule,
+      providers: [
+        AuthService,
+        AuthGuard,
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: AuthInterceptor,
+          multi: true,
+        }
+      ]
+    }
   }
 }

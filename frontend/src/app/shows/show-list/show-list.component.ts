@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '
 import { Observable } from 'rxjs';
 import { Show } from '../shows.model';
 import { ShowsService } from '../services/shows.service';
-import { MatPaginator, PageEvent } from '@angular/material';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { map, tap } from 'rxjs/operators';
 
 /**
@@ -19,7 +19,7 @@ export class ShowListComponent implements AfterViewInit {
   shows$: Observable<Show[]>;
 
   /** total results of the query sent to the server */
-  totalResults: number = 0;
+  totalResults = 0;
 
   /** columns that will be displayed */
   displayedColumns = ['id', 'title', 'description'];
@@ -47,8 +47,8 @@ export class ShowListComponent implements AfterViewInit {
 
   /**
    * Get a page of data from the server using service
-   * @param pageIndex
-   * @param pageSize 
+   * @param pageIndex todo:
+   * @param pageSize todo:
    */
   getDataPage(pageIndex: number, pageSize: number) {
     this.cdr.detectChanges();
@@ -62,7 +62,7 @@ export class ShowListComponent implements AfterViewInit {
 
   /**
    * User wants to change page, get new page data
-   * @param event
+   * @param event todo:
    */
   onChangePage(event?: PageEvent) {
     this.getDataPage(event.pageIndex, event.pageSize);
@@ -70,7 +70,7 @@ export class ShowListComponent implements AfterViewInit {
 
   /**
    * Search filters are modified
-   * @param value
+   * @param value todo:
    */
   onChangeFilter(value): void {
     this.paginator.firstPage();

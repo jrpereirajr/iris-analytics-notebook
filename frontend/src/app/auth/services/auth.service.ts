@@ -9,9 +9,9 @@ import { map, distinctUntilChanged, tap, catchError } from 'rxjs/operators';
  */
 @Injectable()
 export class AuthService {
-  
+
   /** Backend API used to login. We can use any URL that will enforce an IRIS Basic Auth */
-  authApiUrl: string = 'http://localhost:52773/myapp/api/rf2/form/info';
+  authApiUrl = 'http://localhost:52773/myapp/api/rf2/form/info';
 
   /** isLoginSubject is used to know if the user is logged in or not */
   isLoginSubject = new BehaviorSubject<boolean>(this.authenticated());
@@ -19,8 +19,8 @@ export class AuthService {
   /** private user token */
   private _token: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
-  /** 
-   * Constructor 
+  /**
+   * Constructor
    */
   constructor(private http: HttpClient, private router: Router) {
     document.execCommand('ClearAuthenticationCache', false);
@@ -28,19 +28,19 @@ export class AuthService {
       .asObservable()
       .subscribe(
         token => {
-          // user token changed. 
-          // you can grab user data from server (e.g. preferences) 
+          // user token changed.
+          // you can grab user data from server (e.g. preferences)
         }
       );
   }
 
   /**
    * Login into the app (implements Basic HTTP auth with IRIS backend)
-   * @param username 
-   * @param password 
+   * @param username todo:
+   * @param password todo:
    */
   public login(username: string, password: string): Observable<string> {
-    let basicheader = btoa(encodeURI(username+":"+password));
+    const basicheader = btoa(encodeURI(username+':'+password));
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', 'Basic ' + basicheader);
     headers = headers.set('Cache-Control', 'no-cache');
@@ -50,8 +50,8 @@ export class AuthService {
         headers
       }).
       pipe(
-        map(data => { 
-          let token = `Basic ${basicheader}`;
+        map(data => {
+          const token = `Basic ${basicheader}`;
           localStorage.setItem('currentUser', JSON.stringify({ username, token }));
           this._token.next(token);
           setTimeout(() => {
@@ -106,6 +106,6 @@ export class AuthService {
   isLoggedIn(): Observable<boolean> {
     return this.isLoginSubject.asObservable();
   }
-  
+
 }
 
