@@ -6,17 +6,17 @@ import { AuthService } from './services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  
+
   /**
    * Constructor
-   * @param authService 
+   * @param authService todo:
    */
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   /**
    * Intercepts a requests before sending it to the server
-   * @param req 
-   * @param next 
+   * @param req todo:
+   * @param next todo:
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(this.setHeaders(req));
@@ -24,10 +24,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
   /**
    * Include authorization headers in the request
-   * @param req
+   * @param req todo:
    */
   setHeaders(req: HttpRequest<any>) {
-    if (!req.headers.has('Authorization')) {        
+    if (!req.headers.has('Authorization')) {
       req = req.clone({
         setHeaders: { Authorization: this.authService.getToken() },
       });

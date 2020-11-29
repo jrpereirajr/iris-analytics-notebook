@@ -1,5 +1,5 @@
 import { Component, forwardRef, OnInit } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NotebookInterface } from '../notebook.models';
 
 /**
@@ -17,14 +17,19 @@ import { NotebookInterface } from '../notebook.models';
 })
 export class NotebookComponent implements OnInit, ControlValueAccessor {
 
-  public value: NotebookInterface;
+  public value: NotebookInterface = { Name: 'foo' };
   public disabled: boolean;
+
+  public inputControl: FormControl;
+
   public onChanged: any = () => { };
   public onTouched: any = () => { };
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.inputControl = new FormControl(this.value.Name);
+  }
 
   writeValue(obj: any): void {
     this.value = obj;
@@ -40,6 +45,13 @@ export class NotebookComponent implements OnInit, ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+
+  updateSingleField(): void {
+    this.value.Name = this.inputControl.value;
+  }
+
+  cancelSingleField(): void {
   }
 
 }

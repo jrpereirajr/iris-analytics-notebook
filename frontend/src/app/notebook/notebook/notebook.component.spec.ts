@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EditableConfig, EditableModule, EDITABLE_CONFIG } from '@ngneat/edit-in-place';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { NotebookInterface } from '../notebook.models';
@@ -27,7 +28,7 @@ class TestHostComponent {
   });
 }
 
-fdescribe('NotebookComponent', () => {
+describe('NotebookComponent', () => {
   let hostFixture: ComponentFixture<TestHostComponent>;
   let testHostComponent: TestHostComponent;
 
@@ -36,7 +37,17 @@ fdescribe('NotebookComponent', () => {
       declarations: [NotebookComponent, TestHostComponent],
       imports: [
         ReactiveFormsModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        EditableModule
+      ],
+      providers: [
+        {
+          provide: EDITABLE_CONFIG,
+          useValue: {
+            openBindingEvent: 'click',
+            closeBindingEvent: 'click',
+          } as EditableConfig,
+        }
       ]
     })
       .compileComponents();
@@ -61,7 +72,7 @@ fdescribe('NotebookComponent', () => {
   });
 
   it('should create with value', () => {
-    const data = { name: 'foo' };
+    const data: NotebookInterface = { Name: 'foo' };
     testHostComponent.notebookForm.patchValue({ notebook: data });
     hostFixture.detectChanges();
     const compiled = hostFixture.debugElement.nativeElement;
@@ -70,6 +81,6 @@ fdescribe('NotebookComponent', () => {
 
     expect(testHostComponent.notebookForm.get('notebook').value).toBe(data);
     expect(content.length).toEqual(1);
-    expect(content[0].innerText).toEqual(data.name);
+    expect(content[0].innerText).toEqual(data.Name);
   });
 });

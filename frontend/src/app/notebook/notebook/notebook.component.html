@@ -1,2 +1,26 @@
 <div *ngIf="!value">{{'notebook.noNotebook' | translate}}</div>
-<div *ngIf="value">{{value.name}}</div>
+<div *ngIf="value">
+  <editable
+    data-testid="sample-input"
+    openBindingEvent="dblclick"
+    (save)="updateSingleField()"
+    (cancel)="cancelSingleField()"
+  >
+    <ng-template viewMode>
+      {{ value.Name }}
+    </ng-template>
+    <ng-template editMode>
+      <div class="form-group">
+        <input
+          class="form-control"
+          editableOnEnter
+          editableOnEscape
+          data-testid="sample-input-edit"
+          placeholder="Title"
+          type="text"
+          [formControl]="inputControl"
+        />
+      </div>
+    </ng-template>
+  </editable>
+</div>
