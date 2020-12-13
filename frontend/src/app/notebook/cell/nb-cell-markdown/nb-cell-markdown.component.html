@@ -1,0 +1,43 @@
+<!-- <textarea 
+  #textarea autofocus 
+  class="variable-textarea" 
+  [(ngModel)]="value" 
+  (keydown.control.enter)="onSourceCtrlEnter($event)" 
+  (keydown.esc)="onSourceEsc($event)" 
+  *ngIf="cellStatus === 'edit'"></textarea>
+<markdown 
+  class="variable-binding" 
+  [data]="value" 
+  (dblclick)="onResultDblClick($event);" 
+  *ngIf="cellStatus === 'result'"></markdown> -->
+
+<mat-form-field
+  class="source-textarea"
+  appearance="outline"
+  *ngIf="cellStatus === 'edit'"
+>
+  <mat-label>Source</mat-label>
+  <textarea
+    #textarea
+    autofocus
+    matInput
+    matTextareaAutosize
+    matAutosizeMinRows="5"
+    matAutosizeMaxRows="10"
+    [(ngModel)]="value"
+    (keydown.control.enter)="onSourceCtrlEnter($event)"
+    (keydown.esc)="onSourceEsc($event)"
+  ></textarea>
+</mat-form-field>
+<markdown
+  class="variable-binding"
+  [data]="value"
+  (dblclick)="onResultDblClick($event)"
+  *ngIf="cellStatus === 'result'"
+></markdown>
+<div
+  *ngIf="!value && cellStatus === 'result'"
+  (dblclick)="onResultDblClick($event)"
+>
+  Double click to edit...
+</div>

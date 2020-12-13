@@ -1,0 +1,23 @@
+<div *ngIf="cellStatus === 'result'">
+  <div (dblclick)="onResultDblClick($event)">Click to edit</div>
+  <iframe #iframe width="100%" height="300px"></iframe>
+</div>
+
+<mat-form-field
+  class="source-textarea"
+  appearance="outline"
+  *ngIf="cellStatus === 'edit'"
+>
+  <mat-label>Source</mat-label>
+  <textarea
+    #textarea
+    autofocus
+    matInput
+    matTextareaAutosize
+    matAutosizeMinRows="5"
+    matAutosizeMaxRows="10"
+    [(ngModel)]="value"
+    (keydown.control.enter)="onSourceCtrlEnter($event)"
+    (keydown.esc)="onSourceEsc($event)"
+  ></textarea>
+</mat-form-field>

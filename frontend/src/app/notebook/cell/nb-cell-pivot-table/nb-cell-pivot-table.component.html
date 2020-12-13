@@ -1,0 +1,354 @@
+<!-- {{ sourceInput.value | json }}<br />
+{{ dimensions$ | async | json }}<br />
+{{ measures$ | async | json }}<br /> -->
+
+<!-- Source selector -->
+<mat-form-field>
+  <input
+    type="text"
+    placeholder="Cube/Subject Area"
+    aria-label="Number"
+    matInput
+    [formControl]="sourceInput"
+    [matAutocomplete]="auto"
+  />
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="displayWith()"
+    (optionSelected)="onSelectSource($event)"
+  >
+    <mat-option *ngFor="let source of sources$ | async" [value]="source">
+      {{ source.displayName }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<!-- Drag'n'drop query definition -->
+<div cdkDropListGroup>
+  <div class="dragdrop-container">
+    <h6>Dimensions</h6>
+    <div
+      cdkDropList
+      [cdkDropListData]="dimensionsAvailable"
+      class="dragdrop-list dimensions-list"
+      (cdkDropListDropped)="drop($event)"
+      [cdkDropListEnterPredicate]="dropDimensionsPredicate"
+    >
+      <div
+        class="dragdrop-box"
+        *ngFor="let item of dimensionsAvailable"
+        cdkDrag
+        [cdkDragData]="item"
+      >
+        {{ item.value }}
+      </div>
+    </div>
+  </div>
+  <div class="dragdrop-container">
+    <h6>Measures</h6>
+    <div
+      cdkDropList
+      [cdkDropListData]="measuresAvailable"
+      class="dragdrop-list measures-list"
+      (cdkDropListDropped)="drop($event)"
+      [cdkDropListEnterPredicate]="dropMeasuresPredicate"
+    >
+      <div
+        class="dragdrop-box"
+        *ngFor="let item of measuresAvailable"
+        cdkDrag
+        [cdkDragData]="item"
+      >
+        {{ item.value }}
+      </div>
+    </div>
+  </div>
+  <div class="dragdrop-container">
+    <h6>
+      Rows
+      <button mat-icon-button>
+        <mat-icon (click)="remove('rows')">remove_circle_outline</mat-icon>
+      </button>
+    </h6>
+    <div
+      cdkDropList
+      [cdkDropListData]="rows"
+      class="dragdrop-list"
+      (cdkDropListDropped)="drop($event)"
+      [cdkDropListEnterPredicate]="dropRowsPredicate"
+    >
+      <div
+        class="dragdrop-box"
+        *ngFor="let item of rows; let idx = index"
+        cdkDrag
+        [cdkDragData]="item"
+      >
+        {{ item.value }}
+        <button mat-icon-button>
+          <mat-icon (click)="remove('rows', idx)"
+            >remove_circle_outline</mat-icon
+          >
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="dragdrop-container">
+    <h6>
+      Cols
+      <button mat-icon-button (click)="remove('cols')">
+        <mat-icon>remove_circle_outline</mat-icon>
+      </button>
+    </h6>
+    <div
+      cdkDropList
+      [cdkDropListData]="cols"
+      class="dragdrop-list"
+      (cdkDropListDropped)="drop($event)"
+      [cdkDropListEnterPredicate]="dropColsPredicate"
+    >
+      <div
+        class="dragdrop-box"
+        *ngFor="let item of cols; let idx = index"
+        cdkDrag
+        [cdkDragData]="item"
+      >
+        {{ item.value }}
+        <button mat-icon-button>
+          <mat-icon (click)="remove('cols', idx)"
+            >remove_circle_outline</mat-icon
+          >
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="dragdrop-container">
+    <h6>
+      Filters
+      <button mat-icon-button (click)="remove('filters')">
+        <mat-icon>remove_circle_outline</mat-icon>
+      </button>
+    </h6>
+    <div
+      cdkDropList
+      [cdkDropListData]="filters"
+      class="dragdrop-zlist"
+      (cdkDropListDropped)="drop($event)"
+      [cdkDropListEnterPredicate]="dropFiltersPredicate"
+    >
+      <div
+        class="dragdrop-box"
+        *ngFor="let item of filters; let idx = index"
+        cdkDrag
+        [cdkDragData]="item"
+      >
+        {{ item.value }}
+        <button mat-icon-button>
+          <mat-icon (click)="remove('filters', idx)"
+            >remove_circle_outline</mat-icon
+          >
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- {{query$|async|json}} -->
+
+<div style="display: none;">
+  <!-- 
+Tables with toggle-able sticky headers, footers, and columns
+Data table with sorting, pagination, and filtering
+Table dynamically changing the columns displayed
+Table retrieving data through HTTP 
+-->
+  <!-- Query results table -->
+  <div>
+    <button mat-raised-button (click)="tables.push(tables.length)">
+      Add table
+    </button>
+    <button mat-raised-button (click)="tables.pop()">Remove table</button>
+  </div>
+
+  <div>
+    Sticky Headers:
+    <mat-button-toggle-group
+      multiple
+      [value]="['header-1', 'header-2']"
+      #stickyHeaders="matButtonToggleGroup"
+      class="example-sticky-toggle-group"
+    >
+      <mat-button-toggle value="header-1"> Row 1 </mat-button-toggle>
+      <mat-button-toggle value="header-2"> Row 2 </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <div>
+    Sticky Footers:
+    <mat-button-toggle-group
+      multiple
+      [value]="['footer-1']"
+      #stickyFooters="matButtonToggleGroup"
+      class="example-sticky-toggle-group"
+    >
+      <mat-button-toggle value="footer-1"> Row 1 </mat-button-toggle>
+      <mat-button-toggle value="footer-2"> Row 2 </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <div>
+    Sticky Columns:
+    <mat-button-toggle-group
+      multiple
+      [value]="['position', 'symbol']"
+      #stickyColumns="matButtonToggleGroup"
+      class="example-sticky-toggle-group"
+    >
+      <mat-button-toggle value="position"> Position </mat-button-toggle>
+      <mat-button-toggle value="name"> Name </mat-button-toggle>
+      <mat-button-toggle value="weight"> Weight </mat-button-toggle>
+      <mat-button-toggle value="symbol"> Symbol </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</div>
+
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+</mat-form-field>
+
+{{ displayedColumns | json }}
+<br />
+{{ displayedColumnsNames | json }}
+<!-- <br>
+{{displayedColumnsCaptions2|json}} -->
+<div class="example-container mat-elevation-z8">
+  <mat-table [dataSource]="dataSource" *ngFor="let table of tables" matSort>
+    <ng-container
+      *ngFor="let column of displayedColumns"
+      [matColumnDef]="column.name"
+      [sticky]="column.type === 'rowCaptionColumn'"
+    >
+      <mat-header-cell *matHeaderCellDef [attr.colspan]="1" mat-sort-header>
+        {{ column.caption }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{
+          (element[column.name] || {}).hasOwnProperty("ValueFormatted")
+            ? element[column.name].ValueFormatted
+            : (element[column.name]?.value || [column.name, element] | json)
+        }}
+      </mat-cell>
+      <!-- <mat-footer-cell *matFooterCellDef="let element">
+        {{ column.name }}
+      </mat-footer-cell> -->
+    </ng-container>
+    <ng-container *ngFor="let headerColumns of displayedColumns2">
+      <ng-container
+        *ngFor="let headerColumn of headerColumns"
+        [matColumnDef]="headerColumn.name"
+        [sticky]="headerColumn.type === 'rowCaptionColumn'"
+      >
+        <mat-header-cell *matHeaderCellDef [attr.colspan]="24" mat-sort-header>
+          {{ headerColumn.caption }}
+        </mat-header-cell>
+      </ng-container>
+    </ng-container>
+    <!-- <ng-container
+      *ngFor="let column of displayedColumns2"
+      [matColumnDef]="column.name"
+      [sticky]="isSticky(stickyColumns, column.name)"
+    >
+      <mat-header-cell *matHeaderCellDef [attr.colspan]="24" mat-sort-header>
+        {{column.caption}}
+      </mat-header-cell>
+    </ng-container> -->
+    <!-- 
+    <ng-container
+      matColumnDef="position"
+      [sticky]="isSticky(stickyColumns, 'position')"
+    >
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Position
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.position }} </mat-cell>
+      <mat-footer-cell *matFooterCellDef> Position Footer </mat-footer-cell>
+    </ng-container>
+
+    <ng-container
+      matColumnDef="name"
+      [sticky]="isSticky(stickyColumns, 'name')"
+    >
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Name
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+      <mat-footer-cell *matFooterCellDef> Name Footer </mat-footer-cell>
+    </ng-container>
+
+    <ng-container
+      matColumnDef="weight"
+      [stickyEnd]="isSticky(stickyColumns, 'weight')"
+    >
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Weight
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.weight }} </mat-cell>
+      <mat-footer-cell *matFooterCellDef> Weight Footer </mat-footer-cell>
+    </ng-container>
+
+    <ng-container
+      matColumnDef="symbol"
+      [stickyEnd]="isSticky(stickyColumns, 'symbol')"
+    >
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Symbol
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.symbol }} </mat-cell>
+      <mat-footer-cell *matFooterCellDef> Symbol Footer </mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="filler">
+      <mat-header-cell *matHeaderCellDef> Filler header cell </mat-header-cell>
+      <mat-cell *matCellDef="let element"> Filler data cell </mat-cell>
+      <mat-footer-cell *matFooterCellDef> Filler footer cell </mat-footer-cell>
+    </ng-container> 
+    -->
+
+    <ng-container *ngFor="let teste of displayedColumnsNames2">
+      <mat-header-row
+        *matHeaderRowDef="teste; sticky: true"
+      ></mat-header-row>
+    </ng-container>
+    <!-- <mat-header-row
+      *matHeaderRowDef="
+        displayedColumnsNames2;
+        sticky: isSticky(stickyHeaders, 'header-1')
+      "
+    ></mat-header-row> -->
+    <mat-header-row
+      *matHeaderRowDef="
+        displayedColumnsNames;
+        sticky: true
+      "
+    ></mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: displayedColumnsNames"></mat-row>
+    <!-- Row shown when there is no matching data. -->
+    <mat-row *matNoDataRow
+      >No data matching the filter "{{ input.value }}"</mat-row
+    >
+
+    <!-- <mat-footer-row
+      *matFooterRowDef="
+        displayedColumnsNames;
+        sticky: isSticky(stickyFooters, 'footer-1')
+      "
+    ></mat-footer-row> -->
+    <!-- <mat-footer-row
+      *matFooterRowDef="
+        displayedColumnsNames;
+        sticky: isSticky(stickyFooters, 'footer-2')
+      "
+    ></mat-footer-row> -->
+  </mat-table>
+</div>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>

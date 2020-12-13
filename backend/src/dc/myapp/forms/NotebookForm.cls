@@ -12,19 +12,13 @@ Parameter DISPLAYPROPERTY As %String = "Name";
 
 Parameter FORMORDERBY As %String = "Name";
 
-// Parameter FORMCREATEMAPPING As %String;
-
-// Parameter FORMREADMAPPING As %String;
-
-// Parameter FORMUPDATEMAPPING As %String;
-
-Property Name As %String(COLLATION = "TRUNCATE(250)", DISPLAYNAME = "Name", MAXLEN = 2000) [ Required ];
+Property Name As %String(COLLATION = "TRUNCATE(250)", MAXLEN = 2000) [ Required ];
 
 /// 
 /// This classmethod is used in the RESTForms2 query /form/objects/App.Data.Show/find
 ClassMethod queryFIND() As %String
 {
-  quit "Name name "
+  quit "Id,Name"
 }
 
 Storage Default

@@ -5,14 +5,27 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { TranslateModule } from '@ngx-translate/core';
 
-import { EDITABLE_CONFIG, EditableConfig, EditableModule } from '@ngneat/edit-in-place';
+// import { EDITABLE_CONFIG, EditableConfig, EditableModule } from '@ngneat/edit-in-place';
 
-import { NotebookComponent } from './notebook/notebook.component';
+import { MarkdownModule } from 'ngx-markdown';
+
 import { SharedModule } from '../shared/shared.module';
+
 import { NotebookRoutingModule } from './notebook-routing.module';
+import { NotebookComponent } from './notebook/notebook.component';
+import { NbCellComponent } from './cell/nb-cell/nb-cell.component';
+import { NbCellMarkdownComponent } from './cell/nb-cell-markdown/nb-cell-markdown.component';
+import { NbCellIrisAnalyticsComponent } from './cell/nb-cell-iris-analytics/nb-cell-iris-analytics.component';
+import { NbCellPivotTableComponent } from './cell/nb-cell-pivot-table/nb-cell-pivot-table.component';
 
 @NgModule({
-  declarations: [NotebookComponent],
+  declarations: [
+    NotebookComponent,
+    NbCellComponent,
+    NbCellMarkdownComponent,
+    NbCellIrisAnalyticsComponent,
+    NbCellPivotTableComponent
+  ],
   imports: [
     CommonModule,
     TranslateModule,
@@ -21,16 +34,17 @@ import { NotebookRoutingModule } from './notebook-routing.module';
     ReactiveFormsModule,
     SharedModule,
     NotebookRoutingModule,
-    EditableModule
+    // EditableModule,
+    MarkdownModule.forRoot()
   ],
   providers: [
-    {
-      provide: EDITABLE_CONFIG,
-      useValue: {
-        openBindingEvent: 'click',
-        closeBindingEvent: 'click',
-      } as EditableConfig,
-    }
+    // {
+    //   provide: EDITABLE_CONFIG,
+    //   useValue: {
+    //     openBindingEvent: 'click',
+    //     closeBindingEvent: 'click',
+    //   } as EditableConfig,
+    // }
   ],
   entryComponents: [
     NotebookComponent

@@ -27,6 +27,7 @@
     "@ngx-translate/http-loader": "latest",
     "bootstrap": "latest",
     "hammerjs": "latest",
+    "ngx-markdown": "^11.0.0",
     "rxjs": "latest",
     "tslib": "latest",
     "zone.js": "~0.10.3"

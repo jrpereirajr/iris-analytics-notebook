@@ -1,7 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { empty, Observable, scheduled } from 'rxjs';
+import { QueryResult } from 'src/app/shows/shows.model';
 import { NotebookInterface } from '../notebook.models';
+
+export interface QueryParams {
+  page?: number,
+  size?: number
+};
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +18,7 @@ export class NotebookService {
   urlBase = 'http://localhost:52773/myapp/api/rf2';
   urlFormCreate = '/form/object/:class';
   urlFormReadUpdateDelete = '/form/object/:class/:id';
+  urlFormQuery = '/form/objects/:class/:query';
 
   constructor(private http: HttpClient) { }
 
@@ -21,24 +28,40 @@ export class NotebookService {
     return this.http.post<object>(url, notebook);
   }
 
-  read(notebookId: number|string) {
+  read(notebookId: number | string) {
     const url = `${this.urlBase}${this.urlFormReadUpdateDelete}`
       .replace(':class', this.rf2Class)
       .replace(':id', notebookId.toString());
     return this.http.get<NotebookInterface>(url);
   }
 
-  update(notebookId: number|string, notebook: NotebookInterface) {
+  update(notebook: NotebookInterface) {
     const url = `${this.urlBase}${this.urlFormReadUpdateDelete}`
       .replace(':class', this.rf2Class)
-      .replace(':id', notebookId.toString());
+      .replace(':id', notebook.Id.toString());
     return this.http.put<void>(url, notebook);
   }
 
-  delete(notebookId: number|string) {
+  delete(notebookId: number | string) {
     const url = `${this.urlBase}${this.urlFormReadUpdateDelete}`
       .replace(':class', this.rf2Class)
       .replace(':id', notebookId.toString());
     return this.http.delete<void>(url);
+  }
+
+  query(query: string, params: QueryParams = {}) {
+    const url = `${this.urlBase}${this.urlFormQuery}`
+      .replace(':class', this.rf2Class)
+      .replace(':query', query);
+
+    const sParams = Object.keys(params)
+      .map(param => `${param}=${params[param]}`)
+      .join('&');
+
+    return this.http.get<QueryResult<NotebookInterface>>(url + (sParams ? `?${sParams}` : ''));
+  }
+
+  find(params: QueryParams = {}) {
+    return this.query('find', params);
   }
 }

@@ -1,0 +1,15 @@
+<app-nb-cell-markdown
+  *ngIf="value.type === NotebookCellTypeEnum.MARKDOWN"
+  [(ngModel)]="value.content"
+>
+</app-nb-cell-markdown>
+<app-nb-cell-iris-analytics
+  *ngIf="value.type === NotebookCellTypeEnum.IRIS_ANALYTICS_URL"
+  [(ngModel)]="value.content"
+>
+</app-nb-cell-iris-analytics>
+<app-nb-cell-pivot-table
+  *ngIf="value.type === NotebookCellTypeEnum.PIVOT_TABLE"
+  [(ngModel)]="value.content"
+>
+</app-nb-cell-pivot-table>

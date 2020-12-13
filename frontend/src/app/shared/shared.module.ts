@@ -2,6 +2,8 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MatButtonModule } from '@angular/material/button';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
@@ -15,6 +17,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AlertDisplayComponent } from './alert-display/alert-display.component';
 import { Alert } from './alert.model';
@@ -35,6 +40,10 @@ const mm = [
   MatCardModule,
   MatTooltipModule,
   MatGridListModule,
+  MatCheckboxModule,
+  MatAutocompleteModule,
+  MatButtonToggleModule,
+  DragDropModule,
 ]
 
 @NgModule({
