@@ -1,10 +1,36 @@
+/////////
+// sidenav
+mat-sidenav:not(.mat-drawer-opened) {
+  transform: translate3d(0, 0, 0) !important;
+  visibility: visible !important;
+  width: 40px !important;
+  overflow: hidden;
+}
+
+//////////////
+// mat-button
+.small-icon-button {
+  width: 24px !important;
+  height: 24px !important;
+  line-height: 24px !important;
+
+  .mat-icon {
+    width: 16px !important;
+    height: 16px !important;
+    line-height: 16px !important;
+  }
+  .material-icons {
+    font-size: 16px !important;
+  }
+}
+
 /////////////////////
 // drag'n'drop
 
 .dragdrop-container {
-  width: 400px;
+  width: 250px;
   max-width: 100%;
-  margin: 0 25px 25px 0;
+  margin: 0 15px 15px 0;
   display: inline-block;
   vertical-align: top;
 }
@@ -16,12 +42,12 @@
   border-radius: 4px;
   overflow: hidden;
   display: block;
-  max-height: 300px;
+  max-height: 150px;
   overflow-y: auto;
 }
 
 .dragdrop-box {
-  padding: 20px 10px;
+  padding: 10px 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
@@ -31,7 +57,7 @@
   box-sizing: border-box;
   cursor: move;
   background: white;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .cdk-drag-preview {
@@ -58,8 +84,8 @@
 }
 
 //////////////////////
-// table example
-.example-container {
+// table
+.table-container {
   height: 400px;
   overflow: auto;
 }
@@ -67,10 +93,6 @@
 .mat-table-sticky {
   background: #59abfd;
   opacity: 1;
-}
-
-.example-sticky-toggle-group {
-  margin: 8px;
 }
 
 .mat-column-filler {
@@ -92,7 +114,26 @@
   min-width: 1920px; /* 24 columns, 80px each */
 }
 
-.mat-form-field {
-  font-size: 14px;
-  width: 100%;
+// .mat-form-field {
+//   font-size: 14px;
+//   width: 100%;
+// }
+
+/////////////
+// select
+.select-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+
+///////////
+// apex chart
+#chart {
+  max-width: 650px;
+  margin: 35px auto;
+}
+
+.pivot-items-available {
+  float: left;
+  max-width: 50%;
 }

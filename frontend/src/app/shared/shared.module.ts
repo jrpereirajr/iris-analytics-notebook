@@ -24,6 +24,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AlertDisplayComponent } from './alert-display/alert-display.component';
 import { Alert } from './alert.model';
 import { AlertService } from './services/alert.service';
+import { MatSelectModule } from '@angular/material/select';
 
 const mm = [
   MatButtonModule,
@@ -43,6 +44,7 @@ const mm = [
   MatCheckboxModule,
   MatAutocompleteModule,
   MatButtonToggleModule,
+  MatSelectModule,
   DragDropModule,
 ]
 

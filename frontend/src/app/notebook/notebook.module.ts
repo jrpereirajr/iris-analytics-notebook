@@ -17,6 +17,7 @@ import { NbCellComponent } from './cell/nb-cell/nb-cell.component';
 import { NbCellMarkdownComponent } from './cell/nb-cell-markdown/nb-cell-markdown.component';
 import { NbCellIrisAnalyticsComponent } from './cell/nb-cell-iris-analytics/nb-cell-iris-analytics.component';
 import { NbCellPivotTableComponent } from './cell/nb-cell-pivot-table/nb-cell-pivot-table.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { NbCellPivotTableComponent } from './cell/nb-cell-pivot-table/nb-cell-pi
     SharedModule,
     NotebookRoutingModule,
     // EditableModule,
-    MarkdownModule.forRoot()
+    MarkdownModule.forRoot(),
+    NgApexchartsModule
   ],
   providers: [
     // {

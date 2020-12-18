@@ -36,6 +36,7 @@ import { PIVOTTABLE_TEST08 } from './test-data/test-data-08';
 import { PIVOTTABLE_TEST09 } from './test-data/test-data-09';
 import { PIVOTTABLE_TEST10 } from './test-data/test-data-10';
 import { PIVOTTABLE_TEST11 } from './test-data/test-data-11';
+import { MatSelectModule } from '@angular/material/select';
 
 const url = `http://localhost:52773/api/deepsee/v1/myapp/Data/MDXExecute`;
 
@@ -69,6 +70,7 @@ fdescribe('NbCellPivotTableComponent', () => {
         MatCheckboxModule,
         MatAutocompleteModule,
         DragDropModule,
+        MatSelectModule,
         MatButtonToggleModule,
       ]
     })
@@ -88,10 +90,10 @@ fdescribe('NbCellPivotTableComponent', () => {
   });
 
   const querySelectors = {
-    columnRows: 'div.example-container.mat-elevation-z8 > mat-table > mat-header-row',
-    columnRowsCells: 'div.example-container.mat-elevation-z8 > mat-table > mat-header-row > mat-header-cell',
-    rows: 'div.example-container.mat-elevation-z8 > mat-table > mat-row',
-    cells: 'div.example-container.mat-elevation-z8 > mat-table > mat-row > mat-cell'
+    columnRows: 'div.table-container.mat-elevation-z8 > mat-table > mat-header-row',
+    columnRowsCells: 'div.table-container.mat-elevation-z8 > mat-table > mat-header-row > mat-header-cell',
+    rows: 'div.table-container.mat-elevation-z8 > mat-table > mat-row',
+    cells: 'div.table-container.mat-elevation-z8 > mat-table > mat-row > mat-cell'
   };
 
   const removeSalt = (stringJSON) => {
@@ -100,10 +102,10 @@ fdescribe('NbCellPivotTableComponent', () => {
 
   const tmp = () => {
     const array = [
-      Array.from(document.querySelectorAll('div.example-container.mat-elevation-z8 > mat-table > mat-header-row > mat-header-cell'))
+      Array.from(document.querySelectorAll('div.table-container.mat-elevation-z8 > mat-table > mat-header-row > mat-header-cell'))
         // tslint:disable-next-line:no-string-literal
         .map(item => item['innerText']),
-      Array.from(document.querySelectorAll('div.example-container.mat-elevation-z8 > mat-table > mat-row > mat-cell'))
+      Array.from(document.querySelectorAll('div.table-container.mat-elevation-z8 > mat-table > mat-row > mat-cell'))
         // tslint:disable-next-line:no-string-literal
         .map(item => item['innerText'])
     ];
@@ -118,7 +120,7 @@ fdescribe('NbCellPivotTableComponent', () => {
     fixture.detectChanges();
     component.dataSource.paginator.pageSize = 10;
 
-    component.query(testData.mdx);
+    component.sendQuery(testData.mdx);
     const req = httpMock.expectOne(url);
     req.flush(testData.resp);
 
