@@ -32,6 +32,30 @@ const CUSTOM_VALUE_ACCESSOR: any = {
   multi: true,
 };
 
+enum DragDropItemType {
+  DIMENSION,
+  MEASURE
+}
+
+interface DragDropItem {
+  type: DragDropItemType,
+  value,
+  data,
+  msg
+}
+
+export enum ChartTypeEnum {
+  COLUMN = 'column',
+  AREA = 'area',
+  LINE = 'line'
+}
+
+export const ChartTypeEnumLabels = {
+  [ChartTypeEnum.COLUMN]: 'Column',
+  [ChartTypeEnum.AREA]: 'Area',
+  [ChartTypeEnum.LINE]: 'Line'
+}
+
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -78,6 +102,8 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
   public query$: Observable<any>;
   public sourceInput = new FormControl();
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   public dimensionsAvailable: DragDropItem[] = [];
   public measuresAvailable: DragDropItem[] = [];
   public rows: DragDropItem[] = [];
@@ -100,15 +126,22 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
   }
   public dataSource = new MatTableDataSource<any>();
 
+  @ViewChild('chart')
+  public chart: ChartComponent
   public chartOptions: Partial<ChartOptions>;
   public isDataOkForChart = true;
+  public currChartType = ChartTypeEnum.AREA;
+  public chartTypes = Object.keys(ChartTypeEnum).map(chartType => ({
+    value: ChartTypeEnum[chartType],
+    label: ChartTypeEnumLabels[ChartTypeEnum[chartType]]
+  }));
+  // [
+  //   {value: 'column', label: 'Column'},
+  //   {value: 'area', label: 'Area'},
+  //   {value: 'line', label: 'Line'}
+  // ];
 
   public isExpanded = false;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  // @ViewChild('chart') chart: ChartComponent;
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     super();
@@ -268,7 +301,7 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
     const isOk = item.data.type === DragDropItemType.DIMENSION;
     item.data.msg = '';
     if (!isOk) {
-      item.data.msg = 'Ops... only dimensions are allowed here.';
+      item.data.msg = 'Oops... only dimensions are allowed here.';
     }
     return isOk;
   }
@@ -278,7 +311,7 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
     const isOk = item.data.type === DragDropItemType.DIMENSION;
     item.data.msg = '';
     if (!isOk) {
-      item.data.msg = 'Ops... only dimensions are allowed here.';
+      item.data.msg = 'Oops... only dimensions are allowed here.';
     }
     return isOk;
   }
@@ -288,7 +321,7 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
     const isOk = item.data.type === DragDropItemType.MEASURE;
     item.data.msg = '';
     if (!isOk) {
-      item.data.msg = 'Ops... only measures are allowed here.';
+      item.data.msg = 'Oops... only measures are allowed here.';
     }
     return isOk;
   }
@@ -298,7 +331,7 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
     const isOk = item.data.type === DragDropItemType.DIMENSION;
     item.data.msg = '';
     if (!isOk) {
-      item.data.msg = 'Ops... only dimensions are allowed here.';
+      item.data.msg = 'Oops... only dimensions are allowed here.';
     }
     return isOk;
   }
@@ -308,13 +341,18 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
       this._remove(this.rows, idx);
     } else if (type === 'cols') {
       this._remove(this.cols, idx);
-    } else if (type === 'selected-measures') {
+    } else if (type === 'measures') {
       this._remove(this.measures, idx);
     } else if (type === 'filters') {
-      if (idx) {
-        this.filters[idx].data.formControl.reset();
+      if (!isNaN(idx)) {
+        const item = this.filters[idx];
+        delete this.filterSelection[item.value];
+        item.data.formControl.reset();
       } else {
         this.filters.forEach(filter => filter.data.formControl.reset());
+        Object.keys(this.filterSelection).forEach(key => {
+          delete this.filterSelection[key];
+        });
       }
       this._remove(this.filters, idx);
     }
@@ -572,12 +610,12 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
       return;
     }
     const series = this.getSeries(resp);
-    console.log(series)
+    // console.log(series)
     this.chartOptions.labels = this.getLabels(resp);
     this.chartOptions.series = series.map((serie, idx) => ({
       name: serie.name.slice(this.measures.length).join(', '),
       data: serie.data.map(data => !data.ValueLogical ? null : data.ValueLogical),
-      type: 'column' // ['column', 'area', 'line'][idx % 3]
+      type: this.currChartType // ['column', 'area', 'line'][idx % 3]
     }));
     this.chartOptions.yaxis = [];
     series[0].name.slice(0, this.measures.length).forEach(name => {
@@ -585,7 +623,15 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
         title: { text: name }
       });
     });
-    console.log(this.chartOptions)
+    // console.log(this.chartOptions)
+  }
+
+  changeChartType(selected) {
+    this.chartOptions.series = this.chartOptions.series.map(serie => {
+      serie.type = selected.value;
+      return serie;
+    });
+    this.chart.updateSeries(this.chartOptions.series);
   }
 
   createChart() {
@@ -658,30 +704,18 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
         // },
         min: 0
       }],
-      tooltip: {
-        shared: true,
-        intersect: false,
-        y: {
-          formatter(y) {
-            if (typeof y !== 'undefined') {
-              return y.toFixed(0) + ' points';
-            }
-            return y;
-          }
-        }
-      }
+      // tooltip: {
+      //   shared: true,
+      //   intersect: false,
+      //   y: {
+      //     formatter(y) {
+      //       if (typeof y !== 'undefined') {
+      //         return y.toFixed(0) + ' points';
+      //       }
+      //       return y;
+      //     }
+      //   }
+      // }
     };
   }
-}
-
-enum DragDropItemType {
-  DIMENSION,
-  MEASURE
-}
-
-interface DragDropItem {
-  type: DragDropItemType,
-  value,
-  data,
-  msg
 }

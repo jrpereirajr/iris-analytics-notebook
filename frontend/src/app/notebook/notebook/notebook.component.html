@@ -1,13 +1,13 @@
 <div class="container" novalidate>
   <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form">
     <div>
-      <button mat-button (click)="notImplementedMsg()">New</button>
-      <button mat-button (click)="notImplementedMsg()">Search</button>
-      <button mat-button (click)="notImplementedMsg()" color="primary" [disabled]="!form.valid">Save</button>
-      <button mat-button (click)="notImplementedMsg()" color="warn">Delete</button>
+      <button mat-button (click)="notImplementedMsg()" class="no-print">New</button>
+      <button mat-button (click)="notImplementedMsg()" class="no-print">Search</button>
+      <button mat-button (click)="notImplementedMsg()" class="no-print" color="primary" [disabled]="!form.valid">Save</button>
+      <button mat-button (click)="notImplementedMsg()" class="no-print" color="warn">Delete</button>
     </div>
 
-    <mat-form-field class="form-element" appearance="standard">
+    <mat-form-field class="form-element" appearance="standard" class="no-print">
       <input matInput placeholder="Notebook name" formControlName="name" />
       <mat-error *ngIf="!name.valid && name.touched">
         {{ titleAlert }}
@@ -21,7 +21,7 @@
         class="cell-container"
       >
         <app-nb-cell [formControlName]="cellIndex" class="cell"></app-nb-cell>
-        <div class="cell-toolbar cell-bottom-toolbar">
+        <div class="cell-toolbar cell-bottom-toolbar no-print">
           <button mat-icon-button class="small-icon-button">
             <mat-icon (click)="addCell(cellIndex)">add_circle_outline</mat-icon>
           </button>

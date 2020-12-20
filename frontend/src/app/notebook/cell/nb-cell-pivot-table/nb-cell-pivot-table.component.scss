@@ -1,3 +1,5 @@
+/////////////
+// form elements
 .source-textarea {
   width: 100%;
 }
@@ -88,8 +90,8 @@ mat-sidenav:not(.mat-drawer-opened) {
   text-align: center;
 }
 
-// .mat-header-cell,
-// .mat-footer-cell,
+.mat-header-cell,
+.mat-footer-cell,
 .mat-cell[role="gridcell"] {
   // min-width: 80px;
   // box-sizing: border-box;

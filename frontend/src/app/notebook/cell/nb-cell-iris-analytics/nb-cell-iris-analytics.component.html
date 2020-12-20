@@ -1,5 +1,5 @@
 <div *ngIf="cellStatus === 'result'">
-  <div (dblclick)="onResultDblClick($event)">Click to edit</div>
+  <div (dblclick)="onResultDblClick($event)" class="no-print">Click to edit</div>
   <iframe #iframe width="100%" height="300px"></iframe>
 </div>
 

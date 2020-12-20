@@ -1,17 +1,24 @@
 <div *ngIf="cellStatus === 'result'">
-  <div (dblclick)="onResultDblClick($event)">Click to edit</div>
-  <mat-sidenav-container style="min-height: 400px;">
-    <mat-sidenav #sidenav 
-    [mode]="'over'" 
-    [style.background-color]="isExpanded ? '' : 'transparent'" 
-    [style.max-height]="isExpanded ? '' : '40px'" 
-    position="end"
-    (openedStart)="isExpanded = true"
-    (closedStart)="isExpanded = false">
-      <button mat-icon-button (click)="sidenav.toggle(); isExpanded=!isExpanded">
+  <!-- <div (dblclick)="onResultDblClick($event)" class="no-print">Click to edit</div> -->
+  <mat-sidenav-container style="max-height: 450px">
+    <mat-sidenav
+      #sidenav
+      [mode]="'over'"
+      [style.background-color]="isExpanded ? '' : 'transparent'"
+      [style.max-height]="isExpanded ? '' : '40px'"
+      style="overflow-y: auto"
+      position="end"
+      (openedStart)="isExpanded = true"
+      (closedStart)="isExpanded = false"
+    >
+      <button
+        mat-icon-button
+        class="no-print"
+        (click)="sidenav.toggle(); isExpanded = !isExpanded"
+      >
         <mat-icon>settings</mat-icon>
       </button>
-      <div *ngIf="isExpanded" style="padding-left: 15px;">
+      <div *ngIf="isExpanded" style="padding-left: 15px">
         <!-- Source selector -->
         <mat-form-field style="min-width: 50%; margin-right: 10px">
           <input
@@ -27,16 +34,31 @@
             [displayWith]="displayWith()"
             (optionSelected)="onSelectSource($event)"
           >
-            <mat-option *ngFor="let source of sources$ | async" [value]="source">
+            <mat-option
+              *ngFor="let source of sources$ | async"
+              [value]="source"
+            >
               {{ source.displayName }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
         <!-- Pivot view toggle -->
-        <mat-button-toggle-group [(value)]="pivotView">
+        <mat-button-toggle-group [(value)]="pivotView" style="margin-right: 8px;">
           <mat-button-toggle value="table">Table</mat-button-toggle>
           <mat-button-toggle value="chart">Chart</mat-button-toggle>
         </mat-button-toggle-group>
+        <!-- Chart type -->
+        <mat-form-field appearance="standard" *ngIf="pivotView === 'chart'">
+          <mat-label>Chart type</mat-label>
+          <mat-select (selectionChange)="changeChartType($event)" [(value)]="currChartType">
+            <mat-option
+              *ngFor="let chartType of chartTypes"
+              [value]="chartType.value"
+            >
+              {{ chartType.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <!-- Drag'n'drop query definition -->
         <div cdkDropListGroup>
           <div class="pivot-items-available">
@@ -150,7 +172,7 @@
                 <button
                   mat-icon-button
                   class="small-icon-button"
-                  (click)="remove('selected-measures')"
+                  (click)="remove('measures')"
                 >
                   <mat-icon>remove_circle_outline</mat-icon>
                 </button>
@@ -201,7 +223,7 @@
                   cdkDrag
                   [cdkDragData]="item"
                 >
-                  <mat-form-field appearance="fill">
+                  <mat-form-field appearance="standard">
                     <mat-label>{{ item.value }}</mat-label>
                     <mat-select
                       multiple
@@ -248,12 +270,14 @@
         </div>
       </div>
     </mat-sidenav>
-  
-    <mat-sidenav-content
-    [style.overflow]="isExpanded ? '' : 'hidden'" >
+
+    <mat-sidenav-content [style.overflow]="isExpanded ? '' : 'hidden'">
       <div>
         <!-- Table -->
-        <div class="table-container mat-elevation-z8" *ngIf="pivotView === 'table'">
+        <div
+          class="table-container mat-elevation-z8"
+          *ngIf="pivotView === 'table'"
+        >
           <mat-table [dataSource]="dataSource" matSort>
             <ng-container *ngFor="let headerColumns of aditionalColumns">
               <ng-container
@@ -275,18 +299,23 @@
               [matColumnDef]="column.name"
               [sticky]="column.type === 'rowCaptionColumn'"
             >
-              <mat-header-cell *matHeaderCellDef [attr.colspan]="1" mat-sort-header>
+              <mat-header-cell
+                *matHeaderCellDef
+                [attr.colspan]="1"
+                mat-sort-header
+              >
                 {{ column.caption }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{
                   (element[column.name] || {}).hasOwnProperty("ValueFormatted")
                     ? element[column.name].ValueFormatted
-                    : (element[column.name]?.value || [column.name, element] | json)
+                    : (element[column.name]?.value || [column.name, element]
+                      | json)
                 }}
               </mat-cell>
             </ng-container>
-    
+
             <ng-container *ngFor="let teste of aditionalColumnsNames">
               <mat-header-row
                 *matHeaderRowDef="teste; sticky: true"
@@ -295,8 +324,10 @@
             <mat-header-row
               *matHeaderRowDef="defaultColumnsNames; sticky: true"
             ></mat-header-row>
-    
-            <mat-row *matRowDef="let row; columns: defaultColumnsNames"></mat-row>
+
+            <mat-row
+              *matRowDef="let row; columns: defaultColumnsNames"
+            ></mat-row>
             <!-- Row shown when there is no matching data. -->
             <mat-row *matNoDataRow
               >No data matching the filter "{{ input?.value }}"</mat-row
@@ -304,8 +335,8 @@
           </mat-table>
         </div>
         <!-- Table paginator -->
-        <div style="clear: both;">
-          <mat-form-field *ngIf="pivotView === 'table'" style="float: left;">
+        <div style="clear: both">
+          <mat-form-field *ngIf="pivotView === 'table'" style="float: left">
             <mat-label>Filter</mat-label>
             <input matInput (keyup)="applyTableFilter($event)" #input />
           </mat-form-field>
@@ -316,7 +347,7 @@
         </div>
         <!-- Chart -->
         <div id="chart" *ngIf="pivotView === 'chart'">
-          <apx-chart
+          <apx-chart #chart
             *ngIf="isDataOkForChart"
             [series]="chartOptions.series"
             [chart]="chartOptions.chart"
@@ -330,13 +361,13 @@
             [tooltip]="chartOptions.tooltip"
           ></apx-chart>
           <span *ngIf="!isDataOkForChart"
-            >Sorry, chart for such pivot configuration isn't supported yet... Stay tunned for
-            upgrades!</span
+            >Sorry, chart for such pivot configuration isn't supported yet...
+            Stay tunned for upgrades!</span
           >
         </div>
       </div>
     </mat-sidenav-content>
-  </mat-sidenav-container>  
+  </mat-sidenav-container>
 </div>
 
 <mat-form-field

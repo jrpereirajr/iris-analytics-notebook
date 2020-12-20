@@ -1,6 +1,6 @@
 <mat-sidenav-container fullscreen>
 
-  <mat-sidenav #sidenav>
+  <mat-sidenav #sidenav class="no-print">
     <mat-nav-list (click)="sidenav.close()">
       <a mat-list-item routerLink="/notebook">
         <mat-icon>view_list</mat-icon>
@@ -29,14 +29,14 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-toolbar>
+  <mat-toolbar class="no-print">
     <button class="menu-button" mat-icon-button (click)="sidenav.open('mouse')">
       <mat-icon>menu</mat-icon>
     </button>
     <span>Notebook App</span>
   </mat-toolbar>
 
-  <div class="spinner-container" *ngIf="loading">
+  <div class="spinner-container" *ngIf="loading" class="no-print">
     <mat-spinner></mat-spinner>
   </div>
 
