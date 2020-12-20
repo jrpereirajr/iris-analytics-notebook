@@ -1,20 +1,10 @@
-<!-- <mat-toolbar color="primary">
-  <span class="fill-remaining-space">My Reactive Form with Material</span>
-</mat-toolbar> -->
-
 <div class="container" novalidate>
   <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form">
     <div>
-      <!-- <button mat-button>Basic</button>
-      <button mat-button color="primary">Primary</button>
-      <button mat-button color="accent">Accent</button>
-      <button mat-button color="warn">Warn</button>
-      <button mat-button disabled>Disabled</button>
-      <a mat-button href="https://www.google.com/" target="_blank">Link</a> -->
-      <button mat-button>New</button>
-      <button mat-button>Search</button>
-      <button mat-button color="primary">Save</button>
-      <button mat-button color="warn">Delete</button>
+      <button mat-button (click)="notImplementedMsg()">New</button>
+      <button mat-button (click)="notImplementedMsg()">Search</button>
+      <button mat-button (click)="notImplementedMsg()" color="primary" [disabled]="!form.valid">Save</button>
+      <button mat-button (click)="notImplementedMsg()" color="warn">Delete</button>
     </div>
 
     <mat-form-field class="form-element" appearance="standard">
@@ -25,7 +15,6 @@
     </mat-form-field>
     <br />
 
-    <!-- <app-nb-cell class="form-element" formControlName="cell"></app-nb-cell> -->
     <ng-container formArrayName="cells" class="form-element">
       <div
         *ngFor="let cell of cells.controls; let cellIndex = index"
@@ -52,63 +41,5 @@
         </div>
       </div>
     </ng-container>
-    <br />
-
-    <!-- <iframe
-      width="100%"
-      height="300px"
-      src="http://localhost:52773/csp/myapp/_DeepSee.UserPortal.DashboardViewer.zen?DASHBOARD=KPIs%20%26%20Plugins/Patients%20Plugins.dashboard"></iframe>
-    
-    <iframe 
-      width="100%"
-      height="300px"
-      src="http://localhost:52773/csp/myapp/_DeepSee.UserPortal.DashboardViewer.zen?DASHBOARD=Widget%20Examples/Scorecard%20with%20Plot%20Boxes.dashboard"></iframe> -->
-
-    <!-- <mat-form-field class="form-element">
-      <input matInput placeholder="Emailaddress" formControlName="email">
-      <mat-error *ngIf="!form.controls['email'].valid && form.controls['email'].touched">
-        {{ getErrorEmail() }}
-      </mat-error>
-    </mat-form-field>
-    <br>
-
-    <mat-form-field class="form-element">
-      <textarea 
-        matInput 
-        matTextareaAutosize 
-        matAutosizeMinRows="2" 
-        matAutosizeMaxRows="5" 
-        placeholder="Description" 
-        formControlName="description"></textarea>
-      <mat-error *ngIf="!form.controls['description'].valid && form.controls['description'].touched">
-        Required field, must be between 5 and 10 characters.
-      </mat-error>
-    </mat-form-field>
-    <br>
-
-    <mat-form-field class="form-element">
-      <input matInput placeholder="Password" formControlName="password">
-      <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
-      <mat-error *ngIf="!form.controls['password'].valid && form.controls['password'].touched">
-        {{ getErrorPassword() }}
-      </mat-error>
-    </mat-form-field>
-    <br>
-
-    <div class="form-element">
-      <mat-checkbox formControlName="validate" value="1">Name min. 3 characters</mat-checkbox>
-    </div> -->
-
-    <div class="form-element">
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        class="button"
-        [disabled]="!form.valid"
-      >
-        Submit Form
-      </button>
-    </div>
   </form>
 </div>

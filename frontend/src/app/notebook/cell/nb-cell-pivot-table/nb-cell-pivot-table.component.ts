@@ -1,11 +1,16 @@
 import { CdkDrag, CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, forwardRef, OnInit, ViewChild } from '@angular/core';
+import { Component, forwardRef, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 import { Observable, of } from 'rxjs';
 import { debounceTime, map, startWith, switchMap } from 'rxjs/operators';
 import { NbCellComponent } from '../nb-cell/nb-cell.component';
@@ -63,7 +68,7 @@ const defaultRowMember = { Members: [{ Name: '' }], MemberInfo: [{ levelName: ''
   styleUrls: ['./nb-cell-pivot-table.component.scss'],
   providers: [CUSTOM_VALUE_ACCESSOR]
 })
-export class NbCellPivotTableComponent extends NbCellComponent implements OnInit, AfterViewInit, ControlValueAccessor {
+export class NbCellPivotTableComponent extends NbCellComponent implements OnInit, ControlValueAccessor {
 
   private cubeName;
   private sources;
@@ -105,7 +110,7 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
 
   // @ViewChild('chart') chart: ChartComponent;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     super();
     this.createChart();
   }
@@ -137,20 +142,12 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
       );
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      console.log(item, property)
-      switch (property) {
-        case 'fromDate': return new Date(item.fromDate);
-        default: return item[property]?.ValueLogical;
-      }
-    };
-    this.dataSource.filterPredicate = (data: any, filter: string) => {
-      console.log(data, filter);
-      return JSON.stringify(data).toLowerCase().indexOf(filter.toLowerCase()) > -1;
-    }
+  showMessage(msg) {
+    this.snackBar.open(msg, '', {
+      duration: 2000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
   }
 
   displayWith() {
@@ -159,6 +156,7 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
 
   onSelectSource(value) {
     this.cubeName = this.sourceInput.value.name;
+    this.resetDropnDrop();
     this.query();
     this.dimensions$ = this.http.post(`http://localhost:52773/api/deepsee/v1/myapp/Info/Filters/${this.cubeName}`, {}, {
       headers: {
@@ -205,6 +203,11 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
   }
 
   drop(event: CdkDragDrop<DragDropItem[]>) {
+    if (event.item.data.msg) {
+      this.showMessage(event.item.data.msg);
+      event.item.data.msg = '';
+    }
+
     const prevContainerClassList = event.previousContainer.element.nativeElement.classList;
     const isDimensionOrMeasure = ['dimensions-list', 'measures-list']
       .filter(cls => prevContainerClassList.contains(cls)).length > 0;
@@ -223,7 +226,7 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
     } else {
       const isDuplicated = event.container.data.indexOf(event.previousContainer.data[event.previousIndex]) > -1;
       if (isDuplicated) {
-        console.log('isDuplicated')
+        this.showMessage('Item duplicated...');
         return;
       }
 
@@ -262,19 +265,42 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
   }
 
   dropRowsPredicate(item: CdkDrag<DragDropItem>) {
-    return item.data.type === DragDropItemType.DIMENSION;
+    const isOk = item.data.type === DragDropItemType.DIMENSION;
+    item.data.msg = '';
+    if (!isOk) {
+      item.data.msg = 'Ops... only dimensions are allowed here.';
+    }
+    return isOk;
   }
 
   dropColsPredicate(item: CdkDrag<DragDropItem>) {
-    return item.data.type === DragDropItemType.DIMENSION;
+    // return item.data.type === DragDropItemType.DIMENSION;
+    const isOk = item.data.type === DragDropItemType.DIMENSION;
+    item.data.msg = '';
+    if (!isOk) {
+      item.data.msg = 'Ops... only dimensions are allowed here.';
+    }
+    return isOk;
   }
 
   dropMeasuresPredicate(item: CdkDrag<DragDropItem>) {
-    return item.data.type === DragDropItemType.MEASURE;
+    // return item.data.type === DragDropItemType.MEASURE;
+    const isOk = item.data.type === DragDropItemType.MEASURE;
+    item.data.msg = '';
+    if (!isOk) {
+      item.data.msg = 'Ops... only measures are allowed here.';
+    }
+    return isOk;
   }
 
   dropFiltersPredicate(item: CdkDrag<DragDropItem>) {
-    return item.data.type === DragDropItemType.DIMENSION;
+    // return item.data.type === DragDropItemType.DIMENSION;
+    const isOk = item.data.type === DragDropItemType.DIMENSION;
+    item.data.msg = '';
+    if (!isOk) {
+      item.data.msg = 'Ops... only dimensions are allowed here.';
+    }
+    return isOk;
   }
 
   remove(type, idx) {
@@ -282,10 +308,14 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
       this._remove(this.rows, idx);
     } else if (type === 'cols') {
       this._remove(this.cols, idx);
-    } else if (type === 'measures') {
+    } else if (type === 'selected-measures') {
       this._remove(this.measures, idx);
     } else if (type === 'filters') {
-      this.filters[idx].data.formControl.reset();
+      if (idx) {
+        this.filters[idx].data.formControl.reset();
+      } else {
+        this.filters.forEach(filter => filter.data.formControl.reset());
+      }
       this._remove(this.filters, idx);
     }
     this.query();
@@ -298,6 +328,14 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
     }
     array.splice(idx, deleteCount);
     this.query();
+  }
+
+  resetDropnDrop() {
+    this.dimensionsAvailable = [];
+    this.measuresAvailable = [];
+    this.rows = [];
+    this.cols = [];
+    this.filters = [];
   }
 
   onFilterSelectionChange(selection, item) {
@@ -366,18 +404,40 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
       }
     });
     this.query$.subscribe(resp => {
-      window['resp'] = resp;
       const tableData = this.processQueryResponse(resp);
-      this.dataSource = new MatTableDataSource<any>();
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
       this.defaultColumns = tableData.tableColumns[tableData.tableColumns.length - 1];
       this.aditionalColumns = tableData.tableColumns.length > 1
         ? tableData.tableColumns.slice(0, tableData.tableColumns.length - 1)
         : [];
-      this.dataSource.data = tableData.tableRows;
+      this.setTableDataSource(tableData.tableRows);
       this.updateChart(resp);
     });
+  }
+
+  setTableDataSource(tableRows) {
+    this.dataSource = new MatTableDataSource<any>();
+    this.dataSource.data = tableRows;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      // console.log(item, property)
+      // switch (property) {
+      //   case 'fromDate': return new Date(item.fromDate);
+      //   default: return item[property]?.ValueLogical;
+      // }
+      this.notImplementedMsg();
+      return null;
+    };
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      // console.log(data, filter);
+      // return JSON.stringify(data).toLowerCase().indexOf(filter.toLowerCase()) > -1;
+      this.notImplementedMsg();
+      return null;
+    }
+  }
+
+  notImplementedMsg() {
+    this.showMessage('Sorry, not implemented yet... Stay tunned for upgrades!');
   }
 
   query() {
@@ -516,7 +576,7 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
     this.chartOptions.labels = this.getLabels(resp);
     this.chartOptions.series = series.map((serie, idx) => ({
       name: serie.name.slice(this.measures.length).join(', '),
-      data: serie.data.map(data => data.ValueLogical),
+      data: serie.data.map(data => !data.ValueLogical ? null : data.ValueLogical),
       type: 'column' // ['column', 'area', 'line'][idx % 3]
     }));
     this.chartOptions.yaxis = [];
@@ -622,5 +682,6 @@ enum DragDropItemType {
 interface DragDropItem {
   type: DragDropItemType,
   value,
-  data
+  data,
+  msg
 }

@@ -25,6 +25,7 @@ import { AlertDisplayComponent } from './alert-display/alert-display.component';
 import { Alert } from './alert.model';
 import { AlertService } from './services/alert.service';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const mm = [
   MatButtonModule,
@@ -46,6 +47,7 @@ const mm = [
   MatButtonToggleModule,
   MatSelectModule,
   DragDropModule,
+  MatSnackBarModule
 ]
 
 @NgModule({

@@ -1,3 +1,7 @@
+.source-textarea {
+  width: 100%;
+}
+
 /////////
 // sidenav
 mat-sidenav:not(.mat-drawer-opened) {
@@ -42,12 +46,12 @@ mat-sidenav:not(.mat-drawer-opened) {
   border-radius: 4px;
   overflow: hidden;
   display: block;
-  max-height: 150px;
+  max-height: 300px;
   overflow-y: auto;
 }
 
 .dragdrop-box {
-  padding: 10px 10px;
+  padding: 20px 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
@@ -57,7 +61,7 @@ mat-sidenav:not(.mat-drawer-opened) {
   box-sizing: border-box;
   cursor: move;
   background: white;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .cdk-drag-preview {
@@ -91,8 +95,8 @@ mat-sidenav:not(.mat-drawer-opened) {
 }
 
 .mat-table-sticky {
-  background: #59abfd;
-  opacity: 1;
+  background: #f0f0f0;
+  // opacity: 1;
 }
 
 .mat-column-filler {
@@ -101,23 +105,30 @@ mat-sidenav:not(.mat-drawer-opened) {
   text-align: center;
 }
 
-.mat-header-cell,
-.mat-footer-cell,
-.mat-cell {
-  min-width: 80px;
-  box-sizing: border-box;
+// .mat-header-cell,
+// .mat-footer-cell,
+.mat-cell[role=gridcell] {
+  // min-width: 80px;
+  // box-sizing: border-box;
+  justify-content: center;
 }
 
 .mat-header-row,
 .mat-footer-row,
 .mat-row {
-  min-width: 1920px; /* 24 columns, 80px each */
+  // min-width: 1920px; /* 24 columns, 80px each */
 }
 
 // .mat-form-field {
 //   font-size: 14px;
 //   width: 100%;
 // }
+
+/////////////
+/// paginator
+.mat-paginator-container {
+  width: 50%;
+}
 
 /////////////
 // select
