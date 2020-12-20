@@ -7,22 +7,22 @@ import { AuthGuard } from './auth/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'about',
+    redirectTo: 'notebook',
     pathMatch: 'full'
   },
-  {
-    path: 'about',
-    loadChildren: () => import('./about/about.module').then(m => m.AboutModule)
-  },
+  // {
+  //   path: 'about',
+  //   loadChildren: () => import('./about/about.module').then(m => m.AboutModule)
+  // },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
-  {
-    path: 'shows',
-    loadChildren: () => import('./shows/shows.module').then(m => m.ShowsModule),
-    canActivate: [AuthGuard]
-  },
+  // {
+  //   path: 'shows',
+  //   loadChildren: () => import('./shows/shows.module').then(m => m.ShowsModule),
+  //   canActivate: [AuthGuard]
+  // },
   {
     path: 'notebook',
     loadChildren: () => import('./notebook/notebook.module').then(m => m.NotebookModule),

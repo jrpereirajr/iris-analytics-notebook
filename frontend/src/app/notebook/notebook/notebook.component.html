@@ -20,24 +20,20 @@
         *ngFor="let cell of cells.controls; let cellIndex = index"
         class="cell-container"
       >
-        <!-- <div class="cell-toolbar cell-top-toolbar">
-            <button mat-icon-button>
-              <mat-icon>add_circle_outline</mat-icon>
-            </button>
-            <button mat-icon-button>
-              <mat-icon>remove_circle_outline</mat-icon>
-            </button>
-        </div> -->
         <app-nb-cell [formControlName]="cellIndex" class="cell"></app-nb-cell>
         <div class="cell-toolbar cell-bottom-toolbar">
-          <button mat-icon-button>
+          <button mat-icon-button class="small-icon-button">
             <mat-icon (click)="addCell(cellIndex)">add_circle_outline</mat-icon>
           </button>
-          <button mat-icon-button>
+          <button mat-icon-button class="small-icon-button">
             <mat-icon (click)="removeCell(cellIndex)"
               >remove_circle_outline</mat-icon
             >
           </button>
+          <button mat-button [matMenuTriggerFor]="menu">{{NotebookCellTypeEnumLabels[cell.value.type]}}</button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item *ngFor="let cellType of cellTypes" (click)="changeCellType(cell, cellType)">{{NotebookCellTypeEnumLabels[cellType]}}</button>
+          </mat-menu>
         </div>
       </div>
     </ng-container>

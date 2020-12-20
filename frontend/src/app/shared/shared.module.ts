@@ -2,7 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MatButtonModule } from '@angular/material/button';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,6 +18,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
@@ -47,7 +48,8 @@ const mm = [
   MatButtonToggleModule,
   MatSelectModule,
   DragDropModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatMenuModule
 ]
 
 @NgModule({

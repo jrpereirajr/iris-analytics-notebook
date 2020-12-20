@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 
-import { NotebookCellTypeEnum, NotebookInterface } from '../notebook.models';
+import { NotebookCellTypeEnum, NotebookCellTypeEnumLabels, NotebookInterface } from '../notebook.models';
 import { NotebookService } from '../services/notebook.service';
 
 /**
@@ -18,11 +18,13 @@ import { NotebookService } from '../services/notebook.service';
 })
 export class NotebookComponent implements OnInit {
 
-  form: FormGroup;
-  value: NotebookInterface = { Id: '1', Name: 'foo' };
-  isNew = true;
-  titleAlert = 'This field is required';
-  post: any = '';
+  public form: FormGroup;
+  public value: NotebookInterface = { Id: '1', Name: 'foo' };
+  public isNew = true;
+  public titleAlert = 'This field is required';
+  public post: any = '';
+  public cellTypes = Object.keys(NotebookCellTypeEnum);
+  public NotebookCellTypeEnumLabels = NotebookCellTypeEnumLabels;
 
   get cells(): FormArray {
     return this.form.get('cells') as FormArray;
@@ -60,10 +62,10 @@ export class NotebookComponent implements OnInit {
           type: NotebookCellTypeEnum.IRIS_ANALYTICS_URL,
           content: 'http://localhost:52773/csp/myapp/_DeepSee.UserPortal.DashboardViewer.zen?DASHBOARD=KPIs%20%26%20Plugins/Patients%20Plugins.dashboard'
         }),
-        new FormControl({
-          type: NotebookCellTypeEnum.IRIS_ANALYTICS_URL,
-          content: 'http://localhost:52773/csp/myapp/_DeepSee.UserPortal.DashboardViewer.zen?DASHBOARD=Widget%20Examples/Scorecard%20with%20Plot%20Boxes.dashboard'
-        })
+        // new FormControl({
+        //   type: NotebookCellTypeEnum.IRIS_ANALYTICS_URL,
+        //   content: 'http://localhost:52773/csp/myapp/_DeepSee.UserPortal.DashboardViewer.zen?DASHBOARD=Widget%20Examples/Scorecard%20with%20Plot%20Boxes.dashboard'
+        // })
       ]),
       validate: ''
     });
@@ -107,6 +109,11 @@ export class NotebookComponent implements OnInit {
   remove() {
     // todo: confirmation
     this.nbService.delete(this.value.Id).subscribe(resp => console.log(resp));
+  }
+
+  changeCellType(cell, newCellType) {
+    console.log(cell, newCellType);
+    cell.value.type = newCellType;
   }
 
   showMessage(msg) {

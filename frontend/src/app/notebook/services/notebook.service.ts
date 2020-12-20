@@ -1,8 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { empty, Observable, scheduled } from 'rxjs';
-import { QueryResult } from 'src/app/shows/shows.model';
 import { NotebookInterface } from '../notebook.models';
+
+export interface QueryResult<T> {
+    children: T[],
+    total: number;
+}
 
 export interface QueryParams {
   page?: number,
