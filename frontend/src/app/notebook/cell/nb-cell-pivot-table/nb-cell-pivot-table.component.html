@@ -335,7 +335,7 @@
           </mat-table>
         </div>
         <!-- Table paginator -->
-        <div style="clear: both">
+        <div style="clear: both" class="no-print">
           <mat-form-field *ngIf="pivotView === 'table'" style="float: left">
             <mat-label>Filter</mat-label>
             <input matInput (keyup)="applyTableFilter($event)" #input />

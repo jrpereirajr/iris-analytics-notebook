@@ -50,18 +50,16 @@ export class NotebookComponent implements OnInit {
       cells: new FormArray([
         new FormControl({
           type: NotebookCellTypeEnum.MARKDOWN,
-          content:
-`# Monthly checkpoint - December, 2020
-<hr>`
+          content: ``
         }),
-        new FormControl({
-          type: NotebookCellTypeEnum.PIVOT_TABLE,
-          content: ''
-        }),
-        new FormControl({
-          type: NotebookCellTypeEnum.IRIS_ANALYTICS_URL,
-          content: 'http://localhost:52773/csp/myapp/_DeepSee.UserPortal.DashboardViewer.zen?DASHBOARD=KPIs%20%26%20Plugins/Patients%20Plugins.dashboard'
-        }),
+        // new FormControl({
+        //   type: NotebookCellTypeEnum.PIVOT_TABLE,
+        //   content: ''
+        // }),
+        // new FormControl({
+        //   type: NotebookCellTypeEnum.IRIS_ANALYTICS_URL,
+        //   content: 'http://localhost:52773/csp/myapp/_DeepSee.UserPortal.DashboardViewer.zen?DASHBOARD=KPIs%20%26%20Plugins/Patients%20Plugins.dashboard'
+        // }),
         // new FormControl({
         //   type: NotebookCellTypeEnum.IRIS_ANALYTICS_URL,
         //   content: 'http://localhost:52773/csp/myapp/_DeepSee.UserPortal.DashboardViewer.zen?DASHBOARD=Widget%20Examples/Scorecard%20with%20Plot%20Boxes.dashboard'
@@ -77,7 +75,7 @@ export class NotebookComponent implements OnInit {
 
   addCell(cellIndex: number) {
     this.cells.insert(cellIndex + 1, new FormControl({
-      type: NotebookCellTypeEnum.PIVOT_TABLE,
+      type: NotebookCellTypeEnum.MARKDOWN,
       content: ''
     }));
   }
