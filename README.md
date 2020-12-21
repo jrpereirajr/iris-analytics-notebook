@@ -61,7 +61,7 @@ $ docker-compose up
 If you just wanna the adaptor, you could install it through ZPM.
 Open Terminal and call:
 
-USER>zpm "install interoperability-integratedml-adapter"
+USER>zpm "install iris-analytics-samples"
 
 ## Credits
 
