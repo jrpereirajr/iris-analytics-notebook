@@ -32,6 +32,8 @@ Front end was built using [Angular](https://angular.io/) and [Material Desging](
 
 An API for saving notebooks is under early develpoment, using [RESTForms2](https://github.com/intersystems-community/RESTForms2) project.
 
+This project also uses ZPM to install demo data sources to be used ([Samples-BI](https://github.com/intersystems/Samples-BI) and [iris-analytics-template](https://github.com/intersystems-community/iris-analytics-template)).
+
 ## Installation
 
 Clone/git pull the repo into any local directory
@@ -43,16 +45,17 @@ $ https://github.com/jrpereirajr/iris-analytics-notebook.git
 Open a Docker terminal in this directory and run:
 
 ```
+$ cd iris-analytics-notebook
 $ docker-compose build
 ```
 
 3. Run the IRIS container, and Jupyter notebook server images:
 
 ```
-$ docker-compose up -d
+$ docker-compose up
 ```
 
-4. Wait for backend e frontend containers to up and then access the [application](http://localhost:4200)
+4. Wait for backend e frontend containers to up and then access the [application](http://localhost:4200). Username: superuser; password: SYS.
 
 ## Installation (ZPM)
 If you just wanna the adaptor, you could install it through ZPM.
