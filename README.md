@@ -32,6 +32,34 @@ Front end was built using [Angular](https://angular.io/) and [Material Desging](
 
 An API for saving notebooks is under early develpoment, using [RESTForms2](https://github.com/intersystems-community/RESTForms2) project.
 
+## Installation
+
+Clone/git pull the repo into any local directory
+
+```
+$ https://github.com/jrpereirajr/iris-analytics-notebook.git
+```
+
+Open a Docker terminal in this directory and run:
+
+```
+$ docker-compose build
+```
+
+3. Run the IRIS container, and Jupyter notebook server images:
+
+```
+$ docker-compose up -d
+```
+
+4. Wait for backend e frontend containers to up and then access the [application](http://localhost:4200)
+
+## Installation (ZPM)
+If you just wanna the adaptor, you could install it through ZPM.
+Open Terminal and call:
+
+USER>zpm "install interoperability-integratedml-adapter"
+
 ## Credits
 
 This project used the project [iris-sample-rest-angular](https://github.com/intersystems-ib/iris-sample-rest-angular) as angular and REST template.
