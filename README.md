@@ -28,9 +28,9 @@ The pivot table feature is provided by IRIS Analytics [Business Intelligence RES
 
 IRIS Analytics also allows you to [embed dashboards into your application](https://docs.intersystems.com/latest/csp/docbook/Doc.View.cls?KEY=D2IMP_ch_dashboards). So, I decided to release a feature which you can embed IRIS Analytics dashboards into your notebook.
 
-Front end was built using [Angular](https://angular.io/) and [Material Desging](https://material.angular.io/), among [other libraries](https://github.com/jrpereirajr/iris-analytics-notebook/blob/master/frontend/package.json). Markdown is processed by [ngx-markdown](https://github.com/jfcere/ngx-markdown).
+Front end was built using [Angular](https://angular.io/) and [Angular Material](https://material.angular.io/), among [other libraries](https://github.com/jrpereirajr/iris-analytics-notebook/blob/master/frontend/package.json). Markdown is processed by [ngx-markdown](https://github.com/jfcere/ngx-markdown).
 
-An API for saving notebooks is under early develpoment, using [RESTForms2](https://github.com/intersystems-community/RESTForms2) project.
+A simple API for saving notebooks was developed using [RESTForms2](https://github.com/intersystems-community/RESTForms2) project.
 
 ## Installation
 
