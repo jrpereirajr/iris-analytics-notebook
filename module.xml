@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-  <Document name="iris-samples-rest-angular.ZPM">
+  <Document name="iris-analytics-notebook.ZPM">
     <Module>
-      <Name>iris-analytics-samples</Name>
+      <Name>iris-analytics-notebook</Name>
       <Description>A notebook approach to use IRIS analytics capabilities.</Description>
       <Version>0.0.1</Version>
       <Packaging>module</Packaging>
@@ -10,6 +10,18 @@
       <Resource Name="dc.myapp.model.PKG"/>
       <!-- <UnitTest Name="tests" Package="UnitTest" Phase="test"/> -->
       <!-- <SystemRequirements Version=">=2020.3" Interoperability="enabled" /> -->
+      <Dependencies>
+        <ModuleReference>
+          <Name>samples-bi</Name>
+          <Version>1.0.1</Version>
+        </ModuleReference>
+      </Dependencies>
+      <Dependencies>
+        <ModuleReference>
+          <Name>iris-analytics-sample</Name>
+          <Version>1.0.1</Version>
+        </ModuleReference>
+      </Dependencies>
     </Module>
   </Document>
 </Export>
