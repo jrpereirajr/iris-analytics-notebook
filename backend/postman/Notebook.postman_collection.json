@@ -50,7 +50,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"Name\": \"foo\"\r\n}",
+					"raw": "{\r\n    \"name\": \"foo\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -58,7 +58,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.forms.NotebookForm",
+					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.model.Notebook",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -68,7 +68,7 @@
 						"{{endpoint}}",
 						"form",
 						"object",
-						"dc.myapp.forms.NotebookForm"
+						"dc.myapp.model.Notebook"
 					]
 				}
 			},
@@ -90,7 +90,7 @@
 							"});\r",
 							"pm.test(\"Have included a notebook with name equals to foo\", function () {\r",
 							"    pm.expect(responseJson).to.be.not.undefined;\r",
-							"    pm.expect(responseJson.Name).to.be.equals('foo')\r",
+							"    pm.expect(responseJson.name).to.be.equals('foo')\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -101,7 +101,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.forms.NotebookForm/{{testCreatedNotebookId}}",
+					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.model.Notebook/{{testCreatedNotebookId}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -111,7 +111,7 @@
 						"{{endpoint}}",
 						"form",
 						"object",
-						"dc.myapp.forms.NotebookForm",
+						"dc.myapp.model.Notebook",
 						"{{testCreatedNotebookId}}"
 					]
 				}
@@ -154,7 +154,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"Name\": \"foo bar\"\r\n}",
+					"raw": "{\r\n    \"name\": \"foo bar\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -162,7 +162,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.forms.NotebookForm/{{testCreatedNotebookId}}",
+					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.model.Notebook/{{testCreatedNotebookId}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -172,7 +172,7 @@
 						"{{endpoint}}",
 						"form",
 						"object",
-						"dc.myapp.forms.NotebookForm",
+						"dc.myapp.model.Notebook",
 						"{{testCreatedNotebookId}}"
 					]
 				}
@@ -194,7 +194,7 @@
 							"});\r",
 							"pm.test(\"Have changed the notebook name to foo bar\", function () {\r",
 							"    pm.expect(responseJson).to.be.not.undefined;\r",
-							"    pm.expect(responseJson.Name).to.be.equals('foo bar')\r",
+							"    pm.expect(responseJson.name).to.be.equals('foo bar')\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -205,7 +205,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.forms.NotebookForm/{{testCreatedNotebookId}}",
+					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.model.Notebook/{{testCreatedNotebookId}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -215,7 +215,7 @@
 						"{{endpoint}}",
 						"form",
 						"object",
-						"dc.myapp.forms.NotebookForm",
+						"dc.myapp.model.Notebook",
 						"{{testCreatedNotebookId}}"
 					]
 				}
@@ -257,7 +257,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.forms.NotebookForm/{{testCreatedNotebookId}}",
+					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.model.Notebook/{{testCreatedNotebookId}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -267,7 +267,7 @@
 						"{{endpoint}}",
 						"form",
 						"object",
-						"dc.myapp.forms.NotebookForm",
+						"dc.myapp.model.Notebook",
 						"{{testCreatedNotebookId}}"
 					]
 				}
@@ -294,7 +294,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.forms.NotebookForm/{{testCreatedNotebookId}}",
+					"raw": "http://{{host}}:{{port}}/{{endpoint}}/form/object/dc.myapp.model.Notebook/{{testCreatedNotebookId}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -304,7 +304,7 @@
 						"{{endpoint}}",
 						"form",
 						"object",
-						"dc.myapp.forms.NotebookForm",
+						"dc.myapp.model.Notebook",
 						"{{testCreatedNotebookId}}"
 					]
 				}

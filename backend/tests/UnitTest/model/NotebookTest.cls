@@ -1,4 +1,4 @@
-Class UnitTest.dc.myapp.forms.NotebookFromTest Extends %UnitTest.TestCase
+Class UnitTest.dc.myapp.model.NotebookTest Extends %UnitTest.TestCase
 {
 
 /// Set ^UnitTestRoot = "/app/tests"
@@ -22,11 +22,11 @@ Method OnAfterOneTest(testname As %String) As %Status
 
 Method "Test Required fields"()
 {
-  Set notebook = ##class(dc.myapp.forms.NotebookForm).%New()
+  Set notebook = ##class(dc.myapp.model.Notebook).%New()
   Do $$$AssertStatusNotOK(notebook.%Save(), "Shouldn't save, due to empty required fields")
 
   #; Fill Required fields
-  Set notebook.Name = ##class(%PopulateUtils).String()
+  Set notebook.name = ##class(%PopulateUtils).String()
   #; Set notebook.Brand = ##class(%PopulateUtils).String()
   Do $$$AssertStatusOK(notebook.%Save(), "Should save correctly, due to filled required fields")
 }
