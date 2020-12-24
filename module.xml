@@ -22,6 +22,12 @@
           <Version>1.0.1</Version>
         </ModuleReference>
       </Dependencies>
+      <Dependencies>
+        <ModuleReference>
+          <Name>restforms2</Name>
+          <Version>1.0.8</Version>
+        </ModuleReference>
+      </Dependencies>
     </Module>
   </Document>
 </Export>
