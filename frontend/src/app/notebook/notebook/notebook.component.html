@@ -1,14 +1,56 @@
 <div class="container" novalidate>
-  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form">
+  <form [formGroup]="form" class="form">
     <div>
-      <button mat-button (click)="notImplementedMsg()" class="no-print">New</button>
-      <button mat-button (click)="notImplementedMsg()" class="no-print">Search</button>
-      <button mat-button (click)="notImplementedMsg()" class="no-print" color="primary" [disabled]="!form.valid">Save</button>
-      <button mat-button (click)="notImplementedMsg()" class="no-print" color="warn">Delete</button>
+      <button mat-button (click)="newNotebook()" class="no-print">New</button>
+      <!-- <button mat-button (click)="list()" class="no-print">Search</button> -->
+      <button
+        mat-button
+        (click)="save()"
+        class="no-print"
+        [disabled]="!form.valid"
+      >
+        Save
+      </button>
+      <button
+        mat-button
+        (click)="saveCopy()"
+        class="no-print"
+        [disabled]="!form.valid || !form.get('id').value"
+      >
+        Save copy
+      </button>
+      <button
+        mat-button
+        (click)="remove()"
+        class="no-print"
+        [disabled]="!form.get('id').value"
+      >
+        Delete
+      </button>
     </div>
 
-    <mat-form-field class="form-element" appearance="standard" class="no-print">
-      <input matInput placeholder="Notebook name" formControlName="name" />
+    <mat-form-field appearance="standard" class="no-print">
+      <input
+        type="text"
+        placeholder="Notebook name"
+        matInput
+        formControlName="name"
+        [matAutocomplete]="auto"
+        autofocus
+        #notebookName
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        [displayWith]="getDisplayFn()"
+        (optionSelected)="onSelectNotebook($event)"
+      >
+        <mat-option
+          *ngFor="let option of filteredOptions | async"
+          [value]="option"
+        >
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
       <mat-error *ngIf="!name.valid && name.touched">
         {{ titleAlert }}
       </mat-error>
@@ -20,19 +62,47 @@
         *ngFor="let cell of cells.controls; let cellIndex = index"
         class="cell-container"
       >
-        <app-nb-cell [formControlName]="cellIndex" class="cell"></app-nb-cell>
+        <!-- <app-nb-cell-markdown [formControlName]="cellIndex" class="cell"></app-nb-cell-markdown> -->
+        <app-nb-cell-markdown
+          *ngIf="cell.value.type === 'MARKDOWN'"
+          [formControlName]="cellIndex"
+          class="cell"
+        ></app-nb-cell-markdown>
+        <app-nb-cell-iris-analytics
+          *ngIf="cell.value.type === 'IRIS_ANALYTICS_URL'"
+          [formControlName]="cellIndex"
+          class="cell"
+        ></app-nb-cell-iris-analytics>
+        <app-nb-cell-pivot-table
+          *ngIf="cell.value.type === 'PIVOT_TABLE'"
+          [formControlName]="cellIndex"
+          class="cell"
+        ></app-nb-cell-pivot-table>
+
         <div class="cell-toolbar cell-bottom-toolbar no-print">
           <button mat-icon-button class="small-icon-button">
             <mat-icon (click)="addCell(cellIndex)">add_circle_outline</mat-icon>
           </button>
-          <button mat-icon-button class="small-icon-button">
+          <button
+            mat-icon-button
+            class="small-icon-button"
+            [disabled]="this.cells.length <= 1"
+          >
             <mat-icon (click)="removeCell(cellIndex)"
               >remove_circle_outline</mat-icon
             >
           </button>
-          <button mat-button [matMenuTriggerFor]="menu">{{NotebookCellTypeEnumLabels[cell.value.type]}}</button>
+          <button mat-button [matMenuTriggerFor]="menu">
+            {{ NotebookCellTypeEnumLabels[cell.value.type] }}
+          </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item *ngFor="let cellType of cellTypes" (click)="changeCellType(cell, cellType)">{{NotebookCellTypeEnumLabels[cellType]}}</button>
+            <button
+              mat-menu-item
+              *ngFor="let cellType of cellTypes"
+              (click)="changeCellType(cell, cellType)"
+            >
+              {{ NotebookCellTypeEnumLabels[cellType] }}
+            </button>
           </mat-menu>
         </div>
       </div>

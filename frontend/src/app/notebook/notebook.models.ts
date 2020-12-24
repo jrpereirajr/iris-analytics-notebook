@@ -1,6 +1,13 @@
 export interface NotebookInterface {
-  Id?: string;
-  Name?: string;
+  id?: string;
+  name: string;
+  cells: CellInterface[];
+}
+
+export interface CellInterface {
+  id?: string,
+  type: NotebookCellTypeEnum,
+  content: any
 }
 
 export enum NotebookCellTypeEnum {

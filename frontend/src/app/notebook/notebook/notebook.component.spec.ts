@@ -74,7 +74,7 @@ describe('NotebookComponent', () => {
   });
 
   it('should create with value', () => {
-    const data: NotebookInterface = { Id: '1', Name: 'foo' };
+    const data: NotebookInterface = { id: '1', name: 'foo' };
     testHostComponent.notebookForm.patchValue({ notebook: data });
     hostFixture.detectChanges();
     const compiled = hostFixture.debugElement.nativeElement;
@@ -83,11 +83,11 @@ describe('NotebookComponent', () => {
 
     expect(testHostComponent.notebookForm.get('notebook').value).toBe(data);
     expect(content.length).toEqual(1);
-    expect(content[0].innerText.trim()).toEqual(data.Name);
+    expect(content[0].innerText.trim()).toEqual(data.name);
   });
 
   it('should change to edit mode when clicking on the text', () => {
-    const data: NotebookInterface = { Id: '1', Name: 'foo' };
+    const data: NotebookInterface = { id: '1', name: 'foo' };
     testHostComponent.notebookForm.patchValue({ notebook: data });
     hostFixture.detectChanges();
 
@@ -102,7 +102,7 @@ describe('NotebookComponent', () => {
   });
 
   it('should change to read only mode when clicking outside the editable component', () => {
-    const data: NotebookInterface = { Id: '1', Name: 'foo' };
+    const data: NotebookInterface = { id: '1', name: 'foo' };
     testHostComponent.notebookForm.patchValue({ notebook: data });
     hostFixture.detectChanges();
 
@@ -122,7 +122,7 @@ describe('NotebookComponent', () => {
   });
 
   it('should change component value when changing the input value', () => {
-    const data: NotebookInterface = { Id: '1', Name: 'foo' };
+    const data: NotebookInterface = { id: '1', name: 'foo' };
     testHostComponent.notebookForm.patchValue({ notebook: data });
     hostFixture.detectChanges();
 
@@ -148,7 +148,7 @@ describe('NotebookComponent', () => {
   });
 
   it('should change edit value on value change', () => {
-    const data: NotebookInterface = { Id: '1', Name: 'foo bar' };
+    const data: NotebookInterface = { id: '1', name: 'foo bar' };
     testHostComponent.notebookForm.patchValue({ notebook: data });
     hostFixture.detectChanges();
 
@@ -160,11 +160,11 @@ describe('NotebookComponent', () => {
     hostFixture.detectChanges();
     edit = hostFixture.debugElement.nativeElement.querySelectorAll('[data-testid~="sample-input-edit"]')[0];
 
-    expect(edit.value).toBe(data.Name);
+    expect(edit.value).toBe(data.name);
   });
 
   it('should send a touch event when item is selected', () => {
-    const data: NotebookInterface = { Id: '1', Name: 'foo bar' };
+    const data: NotebookInterface = { id: '1', name: 'foo bar' };
     testHostComponent.notebookForm.patchValue({ notebook: data });
     hostFixture.detectChanges();
 

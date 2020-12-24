@@ -1,6 +1,6 @@
 import { Component, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NotebookCellTypeEnum } from '../../notebook.models';
+import { CellInterface, NotebookCellTypeEnum } from '../../notebook.models';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -18,7 +18,7 @@ const CUSTOM_VALUE_ACCESSOR: any = {
   providers: [CUSTOM_VALUE_ACCESSOR]
 })
 export class NbCellComponent implements OnInit, ControlValueAccessor {
-  public value;
+  public value: CellInterface = { type: NotebookCellTypeEnum.MARKDOWN, content: '' };
   protected backup: string;
   protected disabled: boolean;
   public cellStatus = 'result';
@@ -34,7 +34,9 @@ export class NbCellComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    this.value = obj;
+    Object.assign(this.value, obj);
+    this.onChanged(this.value)
+    this.onTouched(this.value)
   }
 
   registerOnChange(fn: any): void {
@@ -51,6 +53,7 @@ export class NbCellComponent implements OnInit, ControlValueAccessor {
 
   onSourceCtrlEnter(event: KeyboardEvent) {
     this.cellStatus = 'result';
+    this.writeValue(this.value);
     this.backup = '';
   }
 
@@ -62,7 +65,7 @@ export class NbCellComponent implements OnInit, ControlValueAccessor {
 
   onResultDblClick(event) {
     this.cellStatus = 'edit';
-    this.backup = this.value;
+    this.backup = this.value.content;
   }
 
 }

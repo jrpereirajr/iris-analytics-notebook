@@ -16,7 +16,7 @@
     matTextareaAutosize
     matAutosizeMinRows="5"
     matAutosizeMaxRows="10"
-    [(ngModel)]="value"
+    [(ngModel)]="value.content"
     (keydown.control.enter)="onSourceCtrlEnter($event)"
     (keydown.esc)="onSourceEsc($event)"
   ></textarea>

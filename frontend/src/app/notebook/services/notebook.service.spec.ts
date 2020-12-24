@@ -13,7 +13,7 @@ describe('NotebookService', () => {
   let service: NotebookService;
   let injector: TestBed;
   let httpMock: HttpTestingController;
-  const fooNotebook = { Id: '1', Name: 'foo' };
+  const fooNotebook = { Id: '1', name: 'foo' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,44 +49,44 @@ describe('NotebookService', () => {
 
   it('#read() should requests an Id and receives a notebook as response', () => {
     const notebook: NotebookInterface = fooNotebook;
-    service.read(notebook.Id).subscribe((res) => {
+    service.read(notebook.id).subscribe((res) => {
       expect(res).toEqual(notebook);
     });
 
     const url = `${service.urlBase}${service.urlFormReadUpdateDelete}`
       .replace(':class', service.rf2Class)
-      .replace(':id', notebook.Id);
+      .replace(':id', notebook.id);
     const req = httpMock.expectOne(url);
     expect(req.request.method).toBe('GET');
-    expect(req.request.url.split('/').slice(-1)[0]).toEqual(notebook.Id);
+    expect(req.request.url.split('/').slice(-1)[0]).toEqual(notebook.id);
     req.flush(notebook);
   });
 
   it('#update() should sends a notebook Id and a new object', () => {
     const notebook: NotebookInterface = fooNotebook;
-    notebook.Name = 'foo bar';
+    notebook.name = 'foo bar';
     service.update(notebook).subscribe();
 
     const url = `${service.urlBase}${service.urlFormReadUpdateDelete}`
       .replace(':class', service.rf2Class)
-      .replace(':id', notebook.Id);
+      .replace(':id', notebook.id);
     const req = httpMock.expectOne(url);
     expect(req.request.method).toBe('PUT');
-    expect(req.request.url.split('/').slice(-1)[0]).toEqual(notebook.Id);
+    expect(req.request.url.split('/').slice(-1)[0]).toEqual(notebook.id);
     expect(req.request.body).toEqual(notebook);
     req.flush(null);
   });
 
   it('#delete() should sends a notebook Id for deletion', () => {
     const notebook: NotebookInterface = fooNotebook;
-    service.delete(notebook.Id).subscribe();
+    service.delete(notebook.id).subscribe();
 
     const url = `${service.urlBase}${service.urlFormReadUpdateDelete}`
       .replace(':class', service.rf2Class)
-      .replace(':id', notebook.Id);
+      .replace(':id', notebook.id);
     const req = httpMock.expectOne(url);
     expect(req.request.method).toBe('DELETE');
-    expect(req.request.url.split('/').slice(-1)[0]).toEqual(notebook.Id);
+    expect(req.request.url.split('/').slice(-1)[0]).toEqual(notebook.id);
     req.flush(null);
   });
 

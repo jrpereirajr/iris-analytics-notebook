@@ -18,7 +18,7 @@ export interface QueryParams {
 })
 export class NotebookService {
 
-  rf2Class = 'dc.myapp.forms.NotebookForm';
+  rf2Class = 'dc.myapp.model.Notebook';
   urlBase = 'http://localhost:52773/myapp/api/rf2';
   urlFormCreate = '/form/object/:class';
   urlFormReadUpdateDelete = '/form/object/:class/:id';
@@ -29,7 +29,7 @@ export class NotebookService {
   create(notebook: NotebookInterface) {
     const url = `${this.urlBase}${this.urlFormCreate}`
       .replace(':class', this.rf2Class);
-    return this.http.post<object>(url, notebook);
+    return this.http.post<any>(url, notebook);
   }
 
   read(notebookId: number | string) {
@@ -42,7 +42,7 @@ export class NotebookService {
   update(notebook: NotebookInterface) {
     const url = `${this.urlBase}${this.urlFormReadUpdateDelete}`
       .replace(':class', this.rf2Class)
-      .replace(':id', notebook.Id.toString());
+      .replace(':id', notebook.id.toString());
     return this.http.put<void>(url, notebook);
   }
 
