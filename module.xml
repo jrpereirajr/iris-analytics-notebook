@@ -7,9 +7,8 @@
       <Version>0.0.1</Version>
       <Packaging>module</Packaging>
       <SourcesRoot>backend/src</SourcesRoot>
-      <Resource Name="dc.myapp.models.PKG"/>
-      <Resource Name="dc.myapp.forms.PKG"/>
-      <UnitTest Name="tests" Package="UnitTest" Phase="test"/>
+      <Resource Name="dc.myapp.model.PKG"/>
+      <!-- <UnitTest Name="tests" Package="UnitTest" Phase="test"/> -->
       <!-- <SystemRequirements Version=">=2020.3" Interoperability="enabled" /> -->
     </Module>
   </Document>
