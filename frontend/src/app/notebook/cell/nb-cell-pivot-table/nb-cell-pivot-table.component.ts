@@ -1,6 +1,6 @@
 import { CdkDrag, CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HttpClient } from '@angular/common/http';
-import { Component, forwardRef, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, forwardRef, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 import { MatPaginator } from '@angular/material/paginator';
@@ -25,6 +25,8 @@ import {
   ApexXAxis,
   ApexPlotOptions
 } from 'ng-apexcharts';
+import _ from 'lodash';
+import { CellInterface } from '../../notebook.models';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -92,9 +94,23 @@ const defaultRowMember = { Members: [{ Name: '' }], MemberInfo: [{ levelName: ''
   styleUrls: ['./nb-cell-pivot-table.component.scss'],
   providers: [CUSTOM_VALUE_ACCESSOR]
 })
-export class NbCellPivotTableComponent extends NbCellComponent implements OnInit, ControlValueAccessor {
+export class NbCellPivotTableComponent extends NbCellComponent implements OnInit, AfterContentInit, ControlValueAccessor {
+
+  public get value(): CellInterface {
+    return this._value;
+  }
+
+  public set value(_value: CellInterface) {
+    this._value = _value;
+  }
 
   private cubeName;
+  private get source() {
+    return this.getContent().source;
+  }
+  private set source(_source) {
+    this.getContent().source = _source;
+  }
   private sources;
   public sources$: Observable<any>;
   public dimensions$: Observable<any>;
@@ -106,13 +122,49 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
   @ViewChild(MatSort) sort: MatSort;
   public dimensionsAvailable: DragDropItem[] = [];
   public measuresAvailable: DragDropItem[] = [];
-  public rows: DragDropItem[] = [];
-  public cols: DragDropItem[] = [];
-  public measures: DragDropItem[] = [];
-  public filters: DragDropItem[] = [];
-  public filterSelection: any = {};
+  // public rows: DragDropItem[] = [];
+  // public cols: DragDropItem[] = [];
+  // public measures: DragDropItem[] = [];
+  // public filters: DragDropItem[] = [];
+  // public filterSelection: any = {};
+  public get rows(): DragDropItem[] {
+    return this.getContent().rows;
+  }
+  public set rows(_rows: DragDropItem[]) {
+    this.getContent().rows = _rows;
+  }
+  public get cols(): DragDropItem[] {
+    return this.getContent().cols;
+  }
+  public set cols(_cols: DragDropItem[]) {
+    this.getContent().cols = _cols;
+  }
+  public get measures(): DragDropItem[] {
+    return this.getContent().measures;
+  }
+  public set measures(_measures: DragDropItem[]) {
+    this.getContent().measures = _measures;
+  }
+  public get filters(): DragDropItem[] {
+    return this.getContent().filters;
+  }
+  public set filters(_filters: DragDropItem[]) {
+    this.getContent().filters = _filters;
+  }
+  public get filterSelection(): DragDropItem[] {
+    return this.getContent().filterSelection;
+  }
+  public set filterSelection(_filterSelection: DragDropItem[]) {
+    this.getContent().filterSelection = _filterSelection;
+  }
 
-  public pivotView = 'table';
+  // public pivotView = 'table';
+  public get pivotView() {
+    return this.getContent().pivotView || 'table';
+  }
+  public set pivotView(_pivotView) {
+    this.getContent().pivotView = _pivotView;
+  }
 
   public defaultColumns = [];
   public aditionalColumns: any[][] = [];
@@ -130,17 +182,17 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
   public chart: ChartComponent
   public chartOptions: Partial<ChartOptions>;
   public isDataOkForChart = true;
-  public currChartType = ChartTypeEnum.AREA;
+  // public currChartType = ChartTypeEnum.AREA;
+  public get currChartType() {
+    return this.getContent().currChartType || ChartTypeEnum.AREA;
+  }
+  public set currChartType(_currChartType) {
+    this.getContent().currChartType = _currChartType;
+  }
   public chartTypes = Object.keys(ChartTypeEnum).map(chartType => ({
     value: ChartTypeEnum[chartType],
     label: ChartTypeEnumLabels[ChartTypeEnum[chartType]]
   }));
-  // [
-  //   {value: 'column', label: 'Column'},
-  //   {value: 'area', label: 'Area'},
-  //   {value: 'line', label: 'Line'}
-  // ];
-
   public isExpanded = false;
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
@@ -175,6 +227,27 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
       );
   }
 
+  ngAfterContentInit() {
+    if (this._value.content.source) {
+      this.sourceInput.setValue(this.source);
+      this.selectSource(this._value.content.source.name);
+    }
+    if (this._value.content.filters) {
+      this._value.content.filters = this._value.content.filters.map(filter => {
+        filter.data.formControl = new FormControl();
+        const filterSelection = this._value.content.filterSelection[filter.data.dimension.caption].value;
+        if (filterSelection) {
+          filter.data.formControl.setValue(filterSelection);
+        }
+        return filter;
+      });
+    }
+  }
+
+  compareFilters(f1, f2) {
+    return f1.value === f2.value;
+  }
+
   showMessage(msg) {
     this.snackBar.open(msg, '', {
       duration: 2000,
@@ -187,9 +260,30 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
     return (value) => value ? value.displayName : value;
   }
 
+  getContent() {
+    if (typeof(this.value.content) !== 'object') {
+      this.value.content =  {
+        source: null,
+        rows: [],
+        cols: [],
+        measures: [],
+        filters: [],
+        filterSelection: {},
+        currChartType: ChartTypeEnum.AREA
+      };
+    }
+    return this.value.content;
+  }
+
   onSelectSource(value) {
-    this.cubeName = this.sourceInput.value.name;
     this.resetDropnDrop();
+    this.source = value.option.value;
+    this.selectSource(value.option.value.name);
+  }
+
+  selectSource(cubeName) {
+    this.cubeName = cubeName;
+    this.writeValue(this.value);
     this.query();
     this.dimensions$ = this.http.post(`http://localhost:52773/api/deepsee/v1/myapp/Info/Filters/${this.cubeName}`, {}, {
       headers: {
@@ -317,7 +411,6 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
   }
 
   dropMeasuresPredicate(item: CdkDrag<DragDropItem>) {
-    // return item.data.type === DragDropItemType.MEASURE;
     const isOk = item.data.type === DragDropItemType.MEASURE;
     item.data.msg = '';
     if (!isOk) {
@@ -327,7 +420,6 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
   }
 
   dropFiltersPredicate(item: CdkDrag<DragDropItem>) {
-    // return item.data.type === DragDropItemType.DIMENSION;
     const isOk = item.data.type === DragDropItemType.DIMENSION;
     item.data.msg = '';
     if (!isOk) {
@@ -406,7 +498,7 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
   }
 
   getMDX() {
-    const cubeName = this.sourceInput.value.name;
+    const cubeName = this.cubeName;
     const rows = this.crossjoin(this.rows.map(row => `${row.data.dimension.value}.Members`));
     const cols = this.crossjoin(this.cols
       .map(col => `${col.data.dimension.value}.Members`)
@@ -494,8 +586,8 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
   }
 
   processQueryResponse(resp) {
-    const colAxys = this.getAxysMembers(resp, 0) // resp.Result.Axes[0] || { Tuples: [defaultColMember] };
-    const rowAxys = this.getAxysMembers(resp, 1); // resp.Result.Axes[1] || { Tuples: [defaultRowMember] };
+    const colAxys = this.getAxysMembers(resp, 0)
+    const rowAxys = this.getAxysMembers(resp, 1);
     const colsCount = colAxys.Tuples.length;
     const rowsCount = rowAxys.Tuples.length;
     const rowAxysMembers = rowAxys.Tuples[0].Members;
@@ -610,7 +702,6 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
       return;
     }
     const series = this.getSeries(resp);
-    // console.log(series)
     this.chartOptions.labels = this.getLabels(resp);
     this.chartOptions.series = series.map((serie, idx) => ({
       name: serie.name.slice(this.measures.length).join(', '),
@@ -623,7 +714,6 @@ export class NbCellPivotTableComponent extends NbCellComponent implements OnInit
         title: { text: name }
       });
     });
-    // console.log(this.chartOptions)
   }
 
   changeChartType(selected) {

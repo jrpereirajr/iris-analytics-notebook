@@ -228,6 +228,7 @@
                     <mat-select
                       multiple
                       [formControl]="item.data.formControl"
+                      [compareWith]="compareFilters"
                       (openedChange)="onSelectFilter($event)"
                       (selectionChange)="onFilterSelectionChange($event, item)"
                     >

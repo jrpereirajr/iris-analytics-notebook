@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { debounceTime, map, startWith, tap } from 'rxjs/operators';
+import _ from 'lodash';
 
 import { NotebookCellTypeEnum, NotebookCellTypeEnumLabels, NotebookInterface } from '../notebook.models';
 import { NotebookService } from '../services/notebook.service';
@@ -24,15 +25,14 @@ export class NotebookComponent implements OnInit {
   public titleAlert = 'This field is required';
   public cellTypes = Object.keys(NotebookCellTypeEnum);
   public NotebookCellTypeEnumLabels = NotebookCellTypeEnumLabels;
-  options: any[] = [];
-  filteredOptions: Observable<any[]>;
+  public options: any[] = [];
+  public filteredOptions: Observable<any[]>;
 
   get cells(): FormArray {
     return this.form.get('cells') as FormArray;
   }
 
   set cells(value: FormArray) {
-    console.log('set cells: ', value)
     this.form.patchValue({ cells: value });
   }
 
@@ -164,20 +164,27 @@ export class NotebookComponent implements OnInit {
   }
 
   save() {
-    const val = Object.assign({}, this.value);
-    if (typeof(val.name) !== 'string') {
+    const notebook = _.cloneDeep(this.value);
+    // remove property source from filter selection to avoid error of circular reference when JSON.stringify is applied
+    notebook.cells.forEach(cell => {
+      Object.keys(cell.content.filterSelection || {}).forEach(key => {
+        delete cell.content.filterSelection[key].source;
+      })
+    });
+    // ensures that name propery will be always a string
+    if (typeof(notebook.name) !== 'string') {
       // tslint:disable-next-line:no-string-literal
-      val.name = val.name['name'];
+      notebook.name = notebook.name['name'];
     }
     if (this.value.id === null) {
-      this.nbService.create(val).subscribe(resp => {
+      this.nbService.create(notebook).subscribe(resp => {
         this.form.patchValue({ id: resp.Id });
         this.nbService.find().subscribe(_resp => {
           this.options = _resp.children;
         });
       });
     } else {
-      this.nbService.update(val).subscribe(resp => {
+      this.nbService.update(notebook).subscribe(resp => {
         this.nbService.find().subscribe(_resp => {
           this.options = _resp.children;
         });
@@ -215,7 +222,6 @@ export class NotebookComponent implements OnInit {
   }
 
   changeCellType(cell, newCellType) {
-    console.log(cell, newCellType);
     cell.value.type = newCellType;
   }
 

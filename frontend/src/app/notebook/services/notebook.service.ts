@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { empty, Observable, scheduled } from 'rxjs';
-import { NotebookInterface } from '../notebook.models';
+import { map } from 'rxjs/operators';
+import { NotebookCellTypeEnum, NotebookInterface } from '../notebook.models';
 
 export interface QueryResult<T> {
     children: T[],
@@ -26,24 +27,59 @@ export class NotebookService {
 
   constructor(private http: HttpClient) { }
 
+  serialize(notebook: NotebookInterface) {
+    notebook.cells = notebook.cells.map(cell => {
+      if (typeof(cell.content) === 'object') {
+        if (cell.type === NotebookCellTypeEnum.PIVOT_TABLE) {
+          // remove unecessary itens (actually some of them generates circular
+          // reference error when applied to JSON.stringify)
+          ['rows', 'cols', 'filters'].forEach(key => {
+            cell.content[key] = cell.content[key].map(item => {
+              if (key !== 'filters') {
+                delete item.data.options;
+              }
+              delete item.data.formControl;
+              return item;
+            });
+          });
+        }
+        cell.content = JSON.stringify(cell.content);
+      }
+      return cell;
+    });
+    return notebook;
+  }
+
+  deserialize(notebook: NotebookInterface) {
+    notebook.cells = notebook.cells.map(cell => {
+      if (cell.type === NotebookCellTypeEnum.PIVOT_TABLE) {
+        cell.content = JSON.parse(cell.content);
+      }
+      return cell;
+    });
+    return notebook;
+  }
+
   create(notebook: NotebookInterface) {
     const url = `${this.urlBase}${this.urlFormCreate}`
       .replace(':class', this.rf2Class);
-    return this.http.post<any>(url, notebook);
+    return this.http.post<any>(url, this.serialize(notebook));
   }
 
   read(notebookId: number | string) {
     const url = `${this.urlBase}${this.urlFormReadUpdateDelete}`
       .replace(':class', this.rf2Class)
       .replace(':id', notebookId.toString());
-    return this.http.get<NotebookInterface>(url);
+    return this.http.get<NotebookInterface>(url).pipe(
+      map(value => this.deserialize(value))
+    );
   }
 
   update(notebook: NotebookInterface) {
     const url = `${this.urlBase}${this.urlFormReadUpdateDelete}`
       .replace(':class', this.rf2Class)
       .replace(':id', notebook.id.toString());
-    return this.http.put<void>(url, notebook);
+    return this.http.put<void>(url, this.serialize(notebook));
   }
 
   delete(notebookId: number | string) {

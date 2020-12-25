@@ -42,14 +42,14 @@ export class NbCellIrisAnalyticsComponent extends NbCellComponent implements OnI
   writeValue(obj: any): void {
     super.writeValue(obj);
     this.getIFrame().subscribe(iframe => {
-      iframe.nativeElement.src = this.value.content;
+      iframe.nativeElement.src = this._value.content;
     });
   }
 
   onSourceCtrlEnter(event: KeyboardEvent) {
     super.onSourceCtrlEnter(event);
     this.getIFrame().subscribe(iframe => {
-      iframe.nativeElement.src = this.value.content;
+      iframe.nativeElement.src = this._value.content;
     });
   }
 

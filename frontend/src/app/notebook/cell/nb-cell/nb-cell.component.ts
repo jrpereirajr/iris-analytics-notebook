@@ -18,12 +18,20 @@ const CUSTOM_VALUE_ACCESSOR: any = {
   providers: [CUSTOM_VALUE_ACCESSOR]
 })
 export class NbCellComponent implements OnInit, ControlValueAccessor {
-  public value: CellInterface = { type: NotebookCellTypeEnum.MARKDOWN, content: '' };
+  public _value: CellInterface = { type: NotebookCellTypeEnum.MARKDOWN, content: '' };
   protected backup: string;
   protected disabled: boolean;
   public cellStatus = 'result';
   public cellType = NotebookCellTypeEnum.MARKDOWN;
   public NotebookCellTypeEnum = NotebookCellTypeEnum;
+
+  public get value(): CellInterface {
+    return this._value;
+  }
+
+  public set value(_value: CellInterface) {
+    this._value = _value;
+  }
 
   protected onChanged: any = () => { };
   protected onTouched: any = () => { };
@@ -34,9 +42,9 @@ export class NbCellComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    Object.assign(this.value, obj);
-    this.onChanged(this.value)
-    this.onTouched(this.value)
+    Object.assign(this._value, obj);
+    this.onChanged(this._value);
+    this.onTouched(this._value);
   }
 
   registerOnChange(fn: any): void {
@@ -53,7 +61,7 @@ export class NbCellComponent implements OnInit, ControlValueAccessor {
 
   onSourceCtrlEnter(event: KeyboardEvent) {
     this.cellStatus = 'result';
-    this.writeValue(this.value);
+    this.writeValue(this._value);
     this.backup = '';
   }
 
@@ -65,7 +73,7 @@ export class NbCellComponent implements OnInit, ControlValueAccessor {
 
   onResultDblClick(event) {
     this.cellStatus = 'edit';
-    this.backup = this.value.content;
+    this.backup = this._value.content;
   }
 
 }
