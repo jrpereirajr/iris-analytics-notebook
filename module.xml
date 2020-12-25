@@ -4,7 +4,7 @@
     <Module>
       <Name>iris-analytics-notebook</Name>
       <Description>A notebook approach to use IRIS analytics capabilities.</Description>
-      <Version>0.0.2</Version>
+      <Version>0.0.3</Version>
       <Packaging>module</Packaging>
       <SourcesRoot>backend/src</SourcesRoot>
       <Resource Name="dc.myapp.model.PKG"/>
