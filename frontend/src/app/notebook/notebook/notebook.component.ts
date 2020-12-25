@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { debounceTime, map, startWith, tap } from 'rxjs/operators';
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import { NotebookCellTypeEnum, NotebookCellTypeEnumLabels, NotebookInterface } from '../notebook.models';
 import { NotebookService } from '../services/notebook.service';

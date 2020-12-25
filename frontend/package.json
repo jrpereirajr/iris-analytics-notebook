@@ -28,7 +28,6 @@
     "apexcharts": "^3.23.0",
     "bootstrap": "latest",
     "hammerjs": "latest",
-    "loadsh": "0.0.4",
     "lodash": "^4.17.20",
     "ng-apexcharts": "^1.5.6",
     "ngx-markdown": "^11.0.0",

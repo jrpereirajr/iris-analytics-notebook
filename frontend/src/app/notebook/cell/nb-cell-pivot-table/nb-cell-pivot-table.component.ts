@@ -25,7 +25,7 @@ import {
   ApexXAxis,
   ApexPlotOptions
 } from 'ng-apexcharts';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { CellInterface } from '../../notebook.models';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
