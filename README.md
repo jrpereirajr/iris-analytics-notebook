@@ -44,7 +44,7 @@ This project also uses ZPM to install demo data sources to be used ([Samples-BI]
 Clone/git pull the repo into any local directory
 
 ```
-$ https://github.com/jrpereirajr/iris-analytics-notebook.git
+$ git clone https://github.com/jrpereirajr/iris-analytics-notebook.git
 ```
 
 Open a Docker terminal in this directory and run:
@@ -63,10 +63,10 @@ $ docker-compose up
 4. Wait for backend e frontend containers to up and then access the [application](http://localhost:4200). Username: superuser; password: SYS.
 
 ## Installation (ZPM)
-If you just wanna the adaptor, you could install it through ZPM.
+
 Open Terminal and call:
 
-USER>zpm "install iris-analytics-samples"
+USER> zpm "install iris-analytics-samples"
 
 ## Credits
 
