@@ -18,9 +18,14 @@ With this project you can:
 
 *Please, notice that this project is in early developement, so a lot of planned features aren't implemented yet. But the main ideia of nootebook and its different sort of cells is already avaialble.*
 
-## Application screencast
+## Application screencasts
 
+Using the notebook UI:
 <img src="https://github.com/jrpereirajr/iris-analytics-notebook/blob/master/img/2HWgQqAOUM.gif?raw=true"></img>
+
+
+Forking a notebook:
+<img src="https://raw.githubusercontent.com/jrpereirajr/iris-analytics-notebook/master/img/OrN2wwi9ud.gif"></img>
 
 ## Technologies used:
 
