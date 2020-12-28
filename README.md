@@ -34,7 +34,7 @@ Forking a notebook:
 <img src="https://raw.githubusercontent.com/jrpereirajr/iris-analytics-notebook/master/img/OrN2wwi9ud.gif"></img>
 
 Opening built-in notebooks:
-<img src="https://raw.githubusercontent.com/jrpereirajr/iris-analytics-notebook/master/img/Qvh3KUxcbS.gif"></img>
+<img src="https://raw.githubusercontent.com/jrpereirajr/iris-analytics-notebook/master/img/qBZNwbDcNN.gif"></img>
 
 Forecast analysis:
 <img src="https://raw.githubusercontent.com/jrpereirajr/iris-analytics-notebook/master/img/screencapture-localhost-4200-notebook-2020-12-27-19_25_14.png"></img>
