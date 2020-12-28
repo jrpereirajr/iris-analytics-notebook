@@ -85,3 +85,4 @@ USER> zpm "install iris-analytics-samples"
 ## Credits
 
 This project used the project [iris-sample-rest-angular](https://github.com/intersystems-ib/iris-sample-rest-angular) as angular and REST template.
+For IntegratedML features, this project uses [integratedml-demo-template](https://github.com/intersystems-community/integratedml-demo-template) project.
