@@ -53,6 +53,17 @@ ClassMethod Run(ByRef vars) As %Status
         // endpoint for translation-demo branch
         $$$ThrowOnError(..CreateWebApp(..#Namespace, "/myapp/api/translation", "App.API.ShowTranslation.disp"))
 
+        set ns = $NAMESPACE
+        zn "MYAPP"
+        Try {
+            Do ##class(dc.myapp.util.MLInstaller).Exec()
+            Do ##class(dc.myapp.util.NotebookExamplesInstaller).Exec()
+        } Catch(e) {
+            zn ns
+            Throw e
+        }
+        zn ns
+
     } catch ex { 
         set sc = ex.AsStatus() 
         write $System.Status.GetErrorText(sc),! 

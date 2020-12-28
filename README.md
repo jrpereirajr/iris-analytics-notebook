@@ -2,6 +2,12 @@
 
 A notebook approach to use IRIS analytics capabilities.
 
+Please check my articles in InterSystems Developer Community for more information:
+
+* [A notebook-inspired approach for IRIS Analytics](https://community.intersystems.com/post/notebook-inspired-approach-iris-analytics)
+* [Using the IRIS Analytics Business Intelligence REST API](https://community.intersystems.com/post/using-iris-analytics-business-intelligence-rest-api)
+* [Using IntegratedML to create a cube dimension](https://community.intersystems.com/post/using-integratedml-create-cube-dimension)
+
 ## Project description
 
 In past few years, notebooks tools like [Jupyter](https://jupyter.org/) are gaining popularity due its natural way to express ideias.
@@ -27,11 +33,19 @@ Using the notebook UI:
 Forking a notebook:
 <img src="https://raw.githubusercontent.com/jrpereirajr/iris-analytics-notebook/master/img/OrN2wwi9ud.gif"></img>
 
+Opening built-in notebooks:
+<img src="https://raw.githubusercontent.com/jrpereirajr/iris-analytics-notebook/master/img/Qvh3KUxcbS.gif"></img>
+
+Forecast analysis:
+<img src="https://raw.githubusercontent.com/jrpereirajr/iris-analytics-notebook/master/img/screencapture-localhost-4200-notebook-2020-12-27-19_25_14.png"></img>
+
 ## Technologies used:
 
 The pivot table feature is provided by IRIS Analytics [Business Intelligence REST API](https://docs.intersystems.com/irislatest/csp/docbook/Doc.View.cls?KEY=D2CLIENT_rest_api). This powerfull API allows you to get virtually all information about data sources managed by IRIS Analytics, their dimensions, measures, filters, as perform MDX queries as well.
 
 IRIS Analytics also allows you to [embed dashboards into your application](https://docs.intersystems.com/latest/csp/docbook/Doc.View.cls?KEY=D2IMP_ch_dashboards). So, I decided to release a feature which you can embed IRIS Analytics dashboards into your notebook.
+
+For ML features, this project uses [IRIS IntegratedML](https://docs.intersystems.com/irislatest/csp/docbook/DocBook.UI.Page.cls?KEY=GIML_BASICS). An example is presented, using a prediction model for no-show in appointments as source for a dimension in a IRIS Analytics cube.
 
 Front end was built using [Angular](https://angular.io/) and [Angular Material](https://material.angular.io/), among [other libraries](https://github.com/jrpereirajr/iris-analytics-notebook/blob/master/frontend/package.json). Markdown is processed by [ngx-markdown](https://github.com/jfcere/ngx-markdown).
 

@@ -1,5 +1,6 @@
 ARG IMAGE=intersystemsdc/iris-community:2020.3.0.221.0-zpm
 ARG IMAGE=intersystemsdc/iris-ml-community:2020.3.0.302.0-zpm
+ARG IMAGE=intersystemsdc/iris-aa-community:2020.3.0AA.331.0-zpm
 FROM $IMAGE
 
 USER root
@@ -33,8 +34,8 @@ COPY src src
 COPY data data
 
 # download zpm package manager
-RUN mkdir -p /tmp/deps \
- && cd /tmp/deps \
+RUN mkdir -p /tmp \
+ && cd /tmp \
  && wget -q https://pm.community.intersystems.com/packages/zpm/latest/installer -O zpm.xml
 
 SHELL ["/irissession.sh"]
