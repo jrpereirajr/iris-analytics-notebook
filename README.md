@@ -21,6 +21,7 @@ With this project you can:
 * Create pivot tables for IRIS Analytics cubes and display the results in table and/or chart layouts
 * Import an IRIS Analytics dashboard
 * Express ideas througth powerfull text styling capabilities provided by [Markdown](https://en.wikipedia.org/wiki/Markdown) format.
+* See how to use IntegratedML to create an IRIS Analytics cube dimension
 
 *Please, notice that this project is in early developement, so a lot of planned features aren't implemented yet. But the main ideia of nootebook and its different sort of cells is already avaialble.*
 
